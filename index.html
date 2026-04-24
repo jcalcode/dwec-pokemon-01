@@ -1,0 +1,2999 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fase 1 — Ejercicios React con Pokemon</title>
+  <style>
+    :root {
+      --bg: #f0f4f8;
+      --card: #ffffff;
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --green: #16a34a;
+      --green-light: #dcfce7;
+      --yellow: #ca8a04;
+      --yellow-light: #fef9c3;
+      --red: #dc2626;
+      --red-light: #fee2e2;
+      --purple: #7c3aed;
+      --purple-light: #ede9fe;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --code-bg: #1e293b;
+      --code-text: #e2e8f0;
+      --tag-green: #86efac;
+      --tag-blue: #93c5fd;
+      --tag-orange: #fdba74;
+      --radius: 12px;
+      --shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2.5rem 2rem;
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    .doc-header {
+      max-width: 860px;
+      margin: 0 auto 3rem;
+      max-width: 900px;
+      text-align: center;
+    }
+
+    .doc-header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .doc-header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .doc-header .badge-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .badge {
+      padding: 0.2rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-blue {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .badge-green {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .badge-purple {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+
+    .badge-orange {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+
+    .badge-red {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    /* ── EXERCISE CARD ── */
+    .exercise {
+      max-width: 900px;
+      margin: 0 auto 2.5rem;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .exercise-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.4rem 1.75rem;
+      border-bottom: 2px solid var(--border);
+      background: #fafbfc;
+      border-left: 6px solid var(--primary);
+    }
+
+    .exercise-header.green {
+      border-left-color: var(--green);
+    }
+
+    .exercise-header.purple {
+      border-left-color: var(--purple);
+    }
+
+    .exercise-header.red {
+      border-left-color: var(--red);
+    }
+
+    .exercise-header.orange {
+      border-left-color: #ea580c;
+    }
+
+    .exercise-number {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .exercise-number.green {
+      background: var(--green);
+    }
+
+    .exercise-number.purple {
+      background: var(--purple);
+    }
+
+    .exercise-number.red {
+      background: var(--red);
+    }
+
+    .exercise-number.orange {
+      background: #ea580c;
+    }
+
+    .exercise-title h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .exercise-title .tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-top: 0.4rem;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .tag-props {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .tag-state {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .tag-effect {
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+
+    .tag-fetch {
+      background: #ffedd5;
+      color: #9a3412;
+    }
+
+    .tag-hook {
+      background: #fce7f3;
+      color: #9d174d;
+    }
+
+    .tag-debug {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .tag-interval {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .exercise-body {
+      padding: 1.5rem;
+    }
+
+    /* ── SECTIONS ── */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .enunciado {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 1.25rem;
+      font-size: 0.95rem;
+    }
+
+    .enunciado p {
+      margin-bottom: 0.5rem;
+    }
+
+    .enunciado p:last-child {
+      margin-bottom: 0;
+    }
+
+    .tasks {
+      margin-bottom: 1.25rem;
+    }
+
+    .tasks ol {
+      padding-left: 1.25rem;
+    }
+
+    .tasks ol li {
+      margin-bottom: 0.4rem;
+      font-size: 0.92rem;
+    }
+
+    .tasks ol li code {
+      background: #f1f5f9;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--purple);
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ── CODE ── */
+    .code-block {
+      background: var(--code-bg);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      overflow-x: auto;
+    }
+
+    .code-block pre {
+      font-family: 'Courier New', Consolas, monospace;
+      font-size: 0.85rem;
+      color: var(--code-text);
+      white-space: pre;
+      line-height: 1.7;
+    }
+
+    .code-label {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      margin-bottom: 0.5rem;
+      font-family: monospace;
+    }
+
+    /* syntax highlight manual */
+    .kw {
+      color: #c084fc;
+    }
+
+    /* keywords */
+    .fn {
+      color: #60a5fa;
+    }
+
+    /* functions */
+    .st {
+      color: #86efac;
+    }
+
+    /* strings */
+    .cm {
+      color: #6b7280;
+      font-style: italic;
+    }
+
+    /* comments */
+    .nm {
+      color: #fbbf24;
+    }
+
+    /* numbers */
+    .tg {
+      color: #f87171;
+    }
+
+    /* jsx tags */
+    .at {
+      color: #fdba74;
+    }
+
+    /* attributes */
+
+    /* ── COLLAPSIBLES ── */
+    details {
+      margin-bottom: 0.75rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    details[data-type="hint"] summary {
+      background: var(--yellow-light);
+      color: var(--yellow);
+      border: 1px solid #fde68a;
+    }
+
+    details[data-type="solution"] summary {
+      background: var(--green-light);
+      color: var(--green);
+      border: 1px solid #86efac;
+    }
+
+    summary {
+      padding: 0.7rem 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.88rem;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: '▶';
+      font-size: 0.7rem;
+      transition: transform 0.2s;
+    }
+
+    details[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    details[data-type="hint"] .details-inner {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-top: none;
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    details[data-type="solution"] .details-inner {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-top: none;
+      padding: 1rem;
+    }
+
+    details[data-type="solution"] .details-inner .code-block {
+      margin-bottom: 0;
+    }
+
+    /* ── REFERENCE BOX ── */
+    .ref-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.88rem;
+    }
+
+    .ref-box h4 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── HTML PREVIEW ── */
+    .html-preview {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .preview-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      align-self: flex-start;
+    }
+
+    /* ── POKEMON PREVIEW STYLES ── */
+    .poke-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .poke-card img {
+      width: 120px;
+      height: 120px;
+    }
+
+    .poke-card h3 {
+      text-transform: capitalize;
+      font-size: 1.2rem;
+      color: #1e293b;
+      margin: 0.5rem 0 0.2rem;
+    }
+
+    .poke-card .num {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .poke-types {
+      display: flex;
+      gap: 0.4rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .poke-type {
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: white;
+      text-transform: capitalize;
+    }
+
+    .t-fire {
+      background: #f6783a;
+    }
+
+    .t-water {
+      background: #6890f0;
+    }
+
+    .t-grass {
+      background: #78c850;
+    }
+
+    .t-electric {
+      background: #f8d030;
+      color: #333;
+    }
+
+    .t-poison {
+      background: #a040a0;
+    }
+
+    .t-normal {
+      background: #a8a878;
+    }
+
+    .t-flying {
+      background: #98d8d8;
+      color: #333;
+    }
+
+    .t-psychic {
+      background: #f85888;
+    }
+
+    .t-bug {
+      background: #a8b820;
+    }
+
+    .t-rock {
+      background: #b8a038;
+    }
+
+    .t-ice {
+      background: #98d8d8;
+    }
+
+    .t-dragon {
+      background: #7038f8;
+    }
+
+    .poke-stats {
+      width: 100%;
+      margin-top: 0.75rem;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+      font-size: 0.78rem;
+    }
+
+    .stat-name {
+      width: 60px;
+      text-align: right;
+      color: #64748b;
+      text-transform: uppercase;
+      font-size: 0.65rem;
+    }
+
+    .stat-bar-bg {
+      flex: 1;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 3px;
+    }
+
+    .stat-bar {
+      height: 6px;
+      border-radius: 3px;
+      background: #3b82f6;
+    }
+
+    .stat-val {
+      width: 28px;
+      font-weight: 700;
+      color: #334155;
+      font-size: 0.75rem;
+    }
+
+    .poke-nav {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .poke-btn {
+      padding: 0.45rem 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background: #3b82f6;
+      color: white;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .poke-btn:disabled {
+      background: #cbd5e0;
+      cursor: not-allowed;
+    }
+
+    .poke-counter {
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+
+    .poke-list {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .poke-mini {
+      background: white;
+      border-radius: 10px;
+      padding: 0.75rem;
+      width: 120px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      font-size: 0.8rem;
+    }
+
+    .poke-mini img {
+      width: 70px;
+      height: 70px;
+    }
+
+    .poke-mini h4 {
+      text-transform: capitalize;
+      font-size: 0.82rem;
+    }
+
+    .poke-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .poke-error {
+      color: #dc2626;
+      background: #fee2e2;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+    }
+
+    .toggle-btn {
+      padding: 0.4rem 1rem;
+      border: 2px solid #3b82f6;
+      border-radius: 8px;
+      background: transparent;
+      color: #3b82f6;
+      font-weight: 600;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 2px dashed var(--border);
+      margin: 2rem 0;
+    }
+
+
+    details[data-type="code"] summary {
+      background: #1e293b;
+      color: #94a3b8;
+      border: 1px solid #334155;
+    }
+
+    details[data-type="code"] .details-inner {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-top: none;
+      padding: 0;
+    }
+
+    details[data-type="code"] .details-inner pre {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      white-space: pre;
+      overflow-x: auto;
+      padding: 1rem 1.25rem;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ── BUG HIGHLIGHT ── */
+    .bug {
+      color: #f87171;
+    }
+
+    /* ================================================
+       CSS del proyecto — ejercicios_pokemon.css
+       Importa este bloque en src/index.css de tu proyecto Vite
+       ================================================ */
+
+    /* ── Tarjeta individual ── */
+    .poke-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .poke-card img {
+      width: 120px;
+      height: 120px;
+    }
+
+    .poke-card h3 {
+      text-transform: capitalize;
+      font-size: 1.2rem;
+      color: #1e293b;
+      margin: .5rem 0 .2rem;
+    }
+
+    .num {
+      color: #94a3b8;
+      font-size: .85rem;
+      margin-bottom: .5rem;
+    }
+
+    /* ── Tipos ── */
+    .poke-types {
+      display: flex;
+      gap: .4rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: .4rem;
+    }
+
+    .poke-type {
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      color: white;
+      text-transform: capitalize;
+    }
+
+    .t-fire {
+      background: #f6783a;
+    }
+
+    .t-water {
+      background: #6890f0;
+    }
+
+    .t-grass {
+      background: #78c850;
+    }
+
+    .t-electric {
+      background: #f8d030;
+      color: #333;
+    }
+
+    .t-poison {
+      background: #a040a0;
+    }
+
+    .t-normal {
+      background: #a8a878;
+    }
+
+    .t-flying {
+      background: #98d8d8;
+      color: #333;
+    }
+
+    .t-psychic {
+      background: #f85888;
+    }
+
+    .t-bug {
+      background: #a8b820;
+    }
+
+    .t-rock {
+      background: #b8a038;
+    }
+
+    .t-ice {
+      background: #98d8d8;
+    }
+
+    .t-dragon {
+      background: #7038f8;
+    }
+
+    .t-ghost {
+      background: #705898;
+    }
+
+    .t-dark {
+      background: #705848;
+    }
+
+    .t-steel {
+      background: #b8b8d0;
+      color: #333;
+    }
+
+    .t-fairy {
+      background: #ee99ac;
+    }
+
+    /* ── Stats ── */
+    .poke-stats {
+      width: 100%;
+      margin-top: .75rem;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: .35rem;
+    }
+
+    .stat-name {
+      width: 60px;
+      text-align: right;
+      color: #64748b;
+      text-transform: uppercase;
+      font-size: .65rem;
+    }
+
+    .stat-bar-bg {
+      flex: 1;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 3px;
+    }
+
+    .stat-bar {
+      height: 6px;
+      border-radius: 3px;
+      background: #3b82f6;
+    }
+
+    .stat-val {
+      width: 28px;
+      font-weight: 700;
+      color: #334155;
+      font-size: .75rem;
+    }
+
+    .toggle-btn {
+      padding: .4rem 1rem;
+      border: 2px solid #3b82f6;
+      border-radius: 8px;
+      background: transparent;
+      color: #3b82f6;
+      font-weight: 600;
+      font-size: .82rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .toggle-btn:hover {
+      background: #3b82f6;
+      color: white;
+    }
+
+    /* ── Grid tarjetas pequeñas ── */
+    .poke-list {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .poke-mini {
+      background: white;
+      border-radius: 10px;
+      padding: .75rem;
+      width: 120px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    }
+
+    .poke-mini img {
+      width: 70px;
+      height: 70px;
+    }
+
+    .poke-mini h4 {
+      text-transform: capitalize;
+      font-size: .82rem;
+      color: #1e293b;
+    }
+
+    /* ── Navegación ── */
+    .poke-nav {
+      display: flex;
+      gap: .75rem;
+    }
+
+    .poke-btn {
+      padding: .45rem 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background: #3b82f6;
+      color: white;
+      font-weight: 600;
+      font-size: .85rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .poke-btn:hover {
+      background: #2563eb;
+    }
+
+    .poke-btn:disabled {
+      background: #cbd5e0;
+      cursor: not-allowed;
+    }
+
+    .poke-counter {
+      font-size: .82rem;
+      color: #94a3b8;
+    }
+
+    /* ── Auth (ej 4) ── */
+    .auth-screen {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+    }
+
+    .auth-screen h2 {
+      font-size: 1.3rem;
+      color: #1e293b;
+      margin-bottom: 1rem;
+    }
+
+    .auth-screen p {
+      color: #64748b;
+      font-size: .9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .auth-btn {
+      padding: .5rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .auth-btn.login {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .auth-btn.login:hover {
+      background: #2563eb;
+    }
+
+    .auth-btn.logout {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .auth-btn.logout:hover {
+      background: #fecaca;
+    }
+
+    .dashboard {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+    }
+
+    .dashboard h2 {
+      color: #16a34a;
+      margin-bottom: .5rem;
+    }
+
+    .dashboard p {
+      color: #64748b;
+      font-size: .9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── Loading / Spinner ── */
+    .poke-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      color: #94a3b8;
+      font-size: .9rem;
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .poke-error {
+      color: #dc2626;
+      background: #fee2e2;
+      padding: .75rem 1rem;
+      border-radius: 8px;
+      font-size: .88rem;
+      text-align: center;
+    }
+
+    /* ── Input número ── */
+    input[type="number"] {
+      padding: .4rem .75rem;
+      border-radius: 8px;
+      border: 2px solid #e2e8f0;
+      font-size: 1rem;
+      width: 100px;
+      text-align: center;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    input[type="number"]:focus {
+      border-color: #3b82f6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="doc-header">
+    <h1>⚡ React × Pokémon — Fase 1</h1>
+    <p>Ejercicios de fragmentos de código para practicar React desde cero</p>
+    <div class="badge-row">
+      <span class="badge badge-blue">Props</span>
+      <span class="badge badge-green">useState</span>
+      <span class="badge badge-purple">useEffect</span>
+      <span class="badge badge-orange">fetch / async</span>
+      <span class="badge badge-red">Debug</span>
+    </div>
+  </div>
+
+
+  <div
+    style="max-width:900px;margin:0 auto 2rem;background:white;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.10);border:1px solid #e2e8f0;overflow:hidden;">
+    <div style="background:#0f172a;padding:1.2rem 1.75rem;border-left:6px solid #3b82f6;">
+      <h2 style="color:white;font-size:1.1rem;font-weight:700;margin:0;">⚙️ Configuración inicial del proyecto</h2>
+      <p style="color:#94a3b8;font-size:0.82rem;margin:.3rem 0 0;">Haz esto una sola vez antes de empezar los ejercicios
+      </p>
+    </div>
+    <div style="padding:1.5rem;display:flex;flex-direction:column;gap:.75rem;">
+
+      <details data-type="code">
+        <summary>1. Crear el proyecto Vite</summary>
+        <div class="details-inner">
+          <pre>npm create vite@latest ejercicios-pokemon -- --template react
+cd ejercicios-pokemon
+npm install</pre>
+        </div>
+      </details>
+
+      <details data-type="code">
+        <summary>2. Estructura de carpetas</summary>
+        <div class="details-inner">
+          <pre>src/
+├── main.jsx          ← ya existe
+├── App.jsx           ← ya existe, aquí importas cada ejercicio
+├── index.css         ← reemplaza el contenido con el CSS de abajo
+└── ejercicios/
+    ├── Ejercicio01.jsx
+    ├── Ejercicio02.jsx
+    └── ...           ← un archivo por ejercicio</pre>
+        </div>
+      </details>
+
+      <details data-type="code">
+        <summary>3. Cómo alternar entre ejercicios — App.jsx</summary>
+        <div class="details-inner">
+          <pre>import Ejercicio01 from './ejercicios/Ejercicio01'
+// import Ejercicio02 from './ejercicios/Ejercicio02'
+
+function App() {
+  return &lt;Ejercicio01 /&gt;
+}
+
+export default App
+
+// Cuando termines un ejercicio, comenta su import
+// y descomenta el siguiente.</pre>
+        </div>
+      </details>
+
+      <details data-type="code">
+        <summary>4. index.css completo — pega esto en src/index.css</summary>
+        <div class="details-inner">
+          <pre>* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #f0f4f8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+}
+
+/* ── Tarjeta individual ── */
+.poke-card {
+  background: white; border-radius: 16px; padding: 1.5rem;
+  width: 220px; text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+  display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+}
+.poke-card img { width: 120px; height: 120px; }
+.poke-card h3 { text-transform: capitalize; font-size: 1.2rem; color: #1e293b; margin: .5rem 0 .2rem; }
+.num { color: #94a3b8; font-size: .85rem; margin-bottom: .5rem; }
+
+/* ── Tipos ── */
+.poke-types { display: flex; gap: .4rem; justify-content: center; flex-wrap: wrap; margin-top: .4rem; }
+.poke-type { padding: .2rem .6rem; border-radius: 999px; font-size: .72rem; font-weight: 700; color: white; text-transform: capitalize; }
+.t-fire { background: #f6783a; } .t-water { background: #6890f0; }
+.t-grass { background: #78c850; } .t-electric { background: #f8d030; color: #333; }
+.t-poison { background: #a040a0; } .t-normal { background: #a8a878; }
+.t-flying { background: #98d8d8; color: #333; } .t-psychic { background: #f85888; }
+.t-bug { background: #a8b820; } .t-rock { background: #b8a038; }
+.t-ice { background: #98d8d8; } .t-dragon { background: #7038f8; }
+.t-ghost { background: #705898; } .t-dark { background: #705848; }
+.t-steel { background: #b8b8d0; color: #333; } .t-fairy { background: #ee99ac; }
+
+/* ── Stats ── */
+.poke-stats { width: 100%; margin-top: .75rem; }
+.stat-row { display: flex; align-items: center; gap: .5rem; margin-bottom: .35rem; }
+.stat-name { width: 60px; text-align: right; color: #64748b; text-transform: uppercase; font-size: .65rem; }
+.stat-bar-bg { flex: 1; height: 6px; background: #e2e8f0; border-radius: 3px; }
+.stat-bar { height: 6px; border-radius: 3px; background: #3b82f6; }
+.stat-val { width: 28px; font-weight: 700; color: #334155; font-size: .75rem; }
+.toggle-btn { padding: .4rem 1rem; border: 2px solid #3b82f6; border-radius: 8px; background: transparent; color: #3b82f6; font-weight: 600; font-size: .82rem; cursor: pointer; transition: all .2s; }
+.toggle-btn:hover { background: #3b82f6; color: white; }
+
+/* ── Grid tarjetas pequeñas ── */
+.poke-list { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.poke-mini { background: white; border-radius: 10px; padding: .75rem; width: 120px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.poke-mini img { width: 70px; height: 70px; }
+.poke-mini h4 { text-transform: capitalize; font-size: .82rem; color: #1e293b; }
+
+/* ── Navegación ── */
+.poke-nav { display: flex; gap: .75rem; }
+.poke-btn { padding: .45rem 1.1rem; border: none; border-radius: 8px; background: #3b82f6; color: white; font-weight: 600; font-size: .85rem; cursor: pointer; transition: background .2s; }
+.poke-btn:hover { background: #2563eb; }
+.poke-btn:disabled { background: #cbd5e0; cursor: not-allowed; }
+.poke-counter { font-size: .82rem; color: #94a3b8; }
+
+/* ── Auth ── */
+.auth-screen { background: white; border-radius: 16px; padding: 2rem; width: 280px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+.auth-screen h2 { font-size: 1.3rem; color: #1e293b; margin-bottom: 1rem; }
+.auth-screen p { color: #64748b; font-size: .9rem; margin-bottom: 1.25rem; }
+.auth-btn { padding: .5rem 1.5rem; border: none; border-radius: 8px; font-weight: 700; font-size: .9rem; cursor: pointer; transition: all .2s; }
+.auth-btn.login { background: #3b82f6; color: white; }
+.auth-btn.login:hover { background: #2563eb; }
+.auth-btn.logout { background: #fee2e2; color: #dc2626; }
+.auth-btn.logout:hover { background: #fecaca; }
+.dashboard { background: white; border-radius: 16px; padding: 2rem; width: 280px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+.dashboard h2 { color: #16a34a; margin-bottom: .5rem; }
+.dashboard p { color: #64748b; font-size: .9rem; margin-bottom: 1.25rem; }
+
+/* ── Loading / Spinner ── */
+.poke-loading { display: flex; flex-direction: column; align-items: center; gap: .5rem; color: #94a3b8; font-size: .9rem; }
+.spinner { width: 32px; height: 32px; border: 3px solid #e2e8f0; border-top-color: #3b82f6; border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.poke-error { color: #dc2626; background: #fee2e2; padding: .75rem 1rem; border-radius: 8px; font-size: .88rem; text-align: center; }
+
+/* ── Input número ── */
+input[type="number"] { padding: .4rem .75rem; border-radius: 8px; border: 2px solid #e2e8f0; font-size: 1rem; width: 100px; text-align: center; outline: none; transition: border-color .2s; }
+input[type="number"]:focus { border-color: #3b82f6; }</pre>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 1 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header">
+      <div class="exercise-number">1</div>
+      <div class="exercise-title">
+        <h2>Tarjeta Pokémon — Props y desestructuración</h2>
+        <div class="tags">
+          <span class="tag tag-props">props</span>
+          <span class="tag tag-props">desestructuración</span>
+          <span class="tag tag-props">JSX</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">Así tiene que verse</span>
+        <div class="poke-card">
+          <img
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
+            alt="charizard" />
+          <h3>charizard</h3>
+          <p class="num">#006</p>
+          <div class="poke-types">
+            <span class="poke-type t-fire">fire</span>
+            <span class="poke-type t-flying">flying</span>
+          </div>
+        </div>
+      </div>
+
+
+      <details data-type="code">
+        <summary>📄 HTML de referencia</summary>
+        <div class="details-inner">
+          <pre>&lt;div class="poke-card"&gt;
+  &lt;img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" alt="charizard" /&gt;
+  &lt;h3&gt;charizard&lt;/h3&gt;
+  &lt;p class="num"&gt;#006&lt;/p&gt;
+  &lt;div class="poke-types"&gt;
+    &lt;span class="poke-type t-fire"&gt;fire&lt;/span&gt;
+    &lt;span class="poke-type t-flying"&gt;flying&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </details>
+      <div class="section-label">Enunciado</div>
+      <div class="enunciado">
+        <p>Tienes que crear un componente <strong>PokemonCard</strong> que reciba los datos de un Pokémon por props y
+          los muestre con el HTML de referencia.</p>
+        <p>En <strong>App.jsx</strong> llamas al componente pasándole los datos directamente como atributos.</p>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Crea el componente <code>PokemonCard</code> que reciba <code>name</code>, <code>number</code>,
+            <code>image</code> y <code>types</code> (array).
+          </li>
+          <li>Desestructura las props directamente en los parámetros de la función, no uses <code>props.name</code>.
+          </li>
+          <li>Usa <code>.map()</code> sobre el array <code>types</code> para renderizar un <code>&lt;span&gt;</code> por
+            cada tipo. Recuerda la <code>key</code>.</li>
+          <li>En <code>App.jsx</code> llama al componente con los datos de Charizard: id 6, tipos fire y flying.</li>
+          <li>La URL de la imagen sigue este patrón:
+            <code>https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{"{id}"}.png</code>
+          </li>
+        </ol>
+      </div>
+
+      <div class="ref-box">
+        <h4>Chuleta — Props</h4>
+        <div class="code-block" style="margin-bottom:0">
+          <pre><span class="cm">// Recibir props SIN desestructurar (evitar):</span>
+<span class="kw">function</span> <span class="fn">User</span>(props) {
+  <span class="kw">return</span> <span class="tg">&lt;h1&gt;</span>{props.name}<span class="tg">&lt;/h1&gt;</span>
+}
+
+<span class="cm">// Recibir props CON desestructuración (correcto):</span>
+<span class="kw">function</span> <span class="fn">User</span>({ name }) {
+  <span class="kw">return</span> <span class="tg">&lt;h1&gt;</span>{name}<span class="tg">&lt;/h1&gt;</span>
+}</pre>
+        </div>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          El componente recibe un array <code>types</code>. Dentro del JSX, usa
+          <code>{types.map(type => (&lt;span key={type}&gt;...&lt;/span&gt;))}</code>. La <code>key</code> siempre en el
+          elemento raíz del map. Para el color, el CSS ya tiene clases como <code>t-fire</code>, <code>t-water</code>:
+          construye el className dinámicamente con un template literal.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <div class="code-label">PokemonCard.jsx</div>
+            <pre><span class="cm">// Desestructuramos directamente en los parámetros</span>
+<span class="kw">const</span> PokemonCard = ({ name, number, image, types }) => {
+  <span class="kw">return</span> (
+    <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-card"</span><span class="tg">&gt;</span>
+      <span class="tg">&lt;img</span> <span class="at">src</span>={image} <span class="at">alt</span>={name} <span class="tg">/&gt;</span>
+      <span class="tg">&lt;h3&gt;</span>{name}<span class="tg">&lt;/h3&gt;</span>
+      <span class="tg">&lt;p</span> <span class="at">className</span>=<span class="st">"num"</span><span class="tg">&gt;</span>#{number}<span class="tg">&lt;/p&gt;</span>
+      <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-types"</span><span class="tg">&gt;</span>
+        {types.map(type => (
+          <span class="tg">&lt;span</span> <span class="at">key</span>={type} <span class="at">className</span>={`poke-type t-${type}`}<span class="tg">&gt;</span>
+            {type}
+          <span class="tg">&lt;/span&gt;</span>
+        ))}
+      <span class="tg">&lt;/div&gt;</span>
+    <span class="tg">&lt;/div&gt;</span>
+  )
+}
+
+<span class="cm">// App.jsx</span>
+<span class="kw">const</span> App = () => (
+  <span class="tg">&lt;PokemonCard</span>
+    <span class="at">name</span>=<span class="st">"charizard"</span>
+    <span class="at">number</span>=<span class="st">"006"</span>
+    <span class="at">image</span>=<span class="st">"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"</span>
+    <span class="at">types</span>={[<span class="st">"fire"</span>, <span class="st">"flying"</span>]}
+  <span class="tg">/&gt;</span>
+)</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 2 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header">
+      <div class="exercise-number">2</div>
+      <div class="exercise-title">
+        <h2>Lista de Pokémon — Renderizado de arrays</h2>
+        <div class="tags">
+          <span class="tag tag-props">props</span>
+          <span class="tag tag-props">.map()</span>
+          <span class="tag tag-props">key</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">Grid de tarjetas pequeñas</span>
+        <div class="poke-list">
+          <div class="poke-mini">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+              alt="pikachu" />
+            <h4>pikachu</h4>
+            <p class="num">#025</p>
+          </div>
+          <div class="poke-mini">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+              alt="bulbasaur" />
+            <h4>bulbasaur</h4>
+            <p class="num">#001</p>
+          </div>
+          <div class="poke-mini">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"
+              alt="charmander" />
+            <h4>charmander</h4>
+            <p class="num">#004</p>
+          </div>
+        </div>
+      </div>
+
+
+      <details data-type="code">
+        <summary>📄 HTML de referencia</summary>
+        <div class="details-inner">
+          <pre>&lt;div class="poke-list"&gt;
+  &lt;div class="poke-mini"&gt;
+    &lt;img src="...25.png" alt="pikachu" /&gt;
+    &lt;h4&gt;pikachu&lt;/h4&gt;
+    &lt;p class="num"&gt;#025&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="poke-mini"&gt;
+    &lt;img src="...1.png" alt="bulbasaur" /&gt;
+    &lt;h4&gt;bulbasaur&lt;/h4&gt;
+    &lt;p class="num"&gt;#001&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </details>
+      <div class="section-label">Enunciado</div>
+      <div class="enunciado">
+        <p>Tienes un array de Pokémon definido en <code>App.jsx</code>. Tienes que pasarlo como prop a un componente
+          <code>PokemonList</code> que renderice una tarjeta pequeña por cada elemento.
+        </p>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Define el array de Pokémon en <code>App.jsx</code> con al menos 3 objetos que tengan <code>id</code>,
+            <code>name</code> y <code>number</code>.
+          </li>
+          <li>Crea <code>PokemonList</code> que reciba el array como prop <code>pokemons</code>.</li>
+          <li>Dentro usa <code>.map()</code> desestructurando cada objeto directamente en el parámetro del map.</li>
+          <li>Cada tarjeta debe tener la <code>key</code> en el elemento raíz del map, no en un hijo.</li>
+          <li>Construye la URL de la imagen dinámicamente con el <code>id</code> de cada Pokémon.</li>
+        </ol>
+      </div>
+
+      <div class="ref-box">
+        <h4>Chuleta — Renderizado de listas</h4>
+        <div class="code-block" style="margin-bottom:0">
+          <pre><span class="kw">const</span> players = [<span class="st">"Messi"</span>, <span class="st">"Ronaldo"</span>]
+
+<span class="cm">// Desestructurando en el map (cuando son objetos):</span>
+players.map(({ name, number }) => (
+  <span class="tg">&lt;Card</span> <span class="at">key</span>={name} <span class="at">name</span>={name} <span class="tg">/&gt;</span>
+))</pre>
+        </div>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          Desestructura directamente en el parámetro del map: <code>.map(({'{ id, name, number }'}) =&gt; (...))</code>.
+          La <code>key</code> va en el elemento raíz del map (el <code>div.poke-mini</code>), no en un hijo. La URL de
+          la imagen se construye con el <code>id</code> usando template literal.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <pre><span class="cm">// App.jsx</span>
+<span class="kw">const</span> pokemons = [
+  { id: <span class="nm">25</span>,  name: <span class="st">"pikachu"</span>,   number: <span class="st">"025"</span> },
+  { id: <span class="nm">1</span>,   name: <span class="st">"bulbasaur"</span>,  number: <span class="st">"001"</span> },
+  { id: <span class="nm">4</span>,   name: <span class="st">"charmander"</span>, number: <span class="st">"004"</span> },
+]
+
+<span class="kw">const</span> App = () => <span class="tg">&lt;PokemonList</span> <span class="at">pokemons</span>={pokemons} <span class="tg">/&gt;</span>
+
+<span class="cm">// PokemonList.jsx</span>
+<span class="kw">const</span> PokemonList = ({ pokemons }) => (
+  <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-list"</span><span class="tg">&gt;</span>
+    {pokemons.map(({ id, name, number }) => (
+      <span class="tg">&lt;div</span> <span class="at">key</span>={id} <span class="at">className</span>=<span class="st">"poke-mini"</span><span class="tg">&gt;</span>
+        <span class="tg">&lt;img</span>
+          <span class="at">src</span>={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
+          <span class="at">alt</span>={name}
+        <span class="tg">/&gt;</span>
+        <span class="tg">&lt;h4&gt;</span>{name}<span class="tg">&lt;/h4&gt;</span>
+        <span class="tg">&lt;p</span> <span class="at">className</span>=<span class="st">"num"</span><span class="tg">&gt;</span>#{number}<span class="tg">&lt;/p&gt;</span>
+      <span class="tg">&lt;/div&gt;</span>
+    ))}
+  <span class="tg">&lt;/div&gt;</span>
+)</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 3 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header green">
+      <div class="exercise-number green">3</div>
+      <div class="exercise-title">
+        <h2>Mostrar/ocultar stats — Renderizado condicional</h2>
+        <div class="tags">
+          <span class="tag tag-state">useState</span>
+          <span class="tag tag-props">ternario</span>
+          <span class="tag tag-props">condicional</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">Así tiene que verse</span>
+        <div class="poke-card">
+          <img
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
+            alt="charizard" />
+          <h3>charizard</h3>
+          <p class="num">#006</p>
+          <div class="poke-types">
+            <span class="poke-type t-fire">fire</span>
+            <span class="poke-type t-flying">flying</span>
+          </div>
+          <button class="toggle-btn">Ver stats</button>
+          <div class="poke-stats">
+            <div class="stat-row">
+              <span class="stat-name">HP</span>
+              <div class="stat-bar-bg">
+                <div class="stat-bar" style="width:30%"></div>
+              </div>
+              <span class="stat-val">78</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-name">ATK</span>
+              <div class="stat-bar-bg">
+                <div class="stat-bar" style="width:33%"></div>
+              </div>
+              <span class="stat-val">84</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-name">DEF</span>
+              <div class="stat-bar-bg">
+                <div class="stat-bar" style="width:30%"></div>
+              </div>
+              <span class="stat-val">78</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-name">SPD</span>
+              <div class="stat-bar-bg">
+                <div class="stat-bar" style="width:39%"></div>
+              </div>
+              <span class="stat-val">100</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <details data-type="code">
+        <summary>📄 HTML de referencia</summary>
+        <div class="details-inner">
+          <pre>&lt;div class="poke-card"&gt;
+  &lt;img src="...25.png" alt="pikachu" /&gt;
+  &lt;h3&gt;pikachu&lt;/h3&gt;
+  &lt;p class="num"&gt;#025&lt;/p&gt;
+  &lt;div class="poke-types"&gt;
+    &lt;span class="poke-type t-electric"&gt;electric&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;button class="toggle-btn"&gt;Ver stats&lt;/button&gt;
+  &lt;!-- Solo visible cuando verStats es true --&gt;
+  &lt;div class="poke-stats"&gt;
+    &lt;div class="stat-row"&gt;
+      &lt;span class="stat-name"&gt;HP&lt;/span&gt;
+      &lt;div class="stat-bar-bg"&gt;&lt;div class="stat-bar" style="width:13%"&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;span class="stat-val"&gt;35&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="stat-row"&gt;
+      &lt;span class="stat-name"&gt;ATK&lt;/span&gt;
+      &lt;div class="stat-bar-bg"&gt;&lt;div class="stat-bar" style="width:21%"&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;span class="stat-val"&gt;55&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="stat-row"&gt;
+      &lt;span class="stat-name"&gt;SPD&lt;/span&gt;
+      &lt;div class="stat-bar-bg"&gt;&lt;div class="stat-bar" style="width:35%"&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;span class="stat-val"&gt;90&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </details>
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Usa <code>PokemonCard</code> del ejercicio 1 como base.
+      </div>
+      <div class="enunciado">
+        <p>Partiendo del componente <code>PokemonCard</code> del ejercicio 1, añádele un botón que alterne entre mostrar
+          y ocultar las estadísticas del Pokémon. Las stats se muestran centradas dentro de la tarjeta.</p>
+        <p>El texto del botón cambia según el estado: <strong>"Ver stats"</strong> cuando están ocultas y
+          <strong>"Ocultar stats"</strong> cuando están visibles.
+        </p>
+        <p class="ref-note">⚙️ Usa el componente <code>PokemonCard</code> del ejercicio 1 como base.</p>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Añade al componente <code>PokemonCard</code> del ejercicio 1 una prop <code>stats</code> que sea un array
+            de objetos <code>{'{ name, value }'}</code>.</li>
+          <li>Crea un estado <code>verStats</code> con valor inicial <code>false</code> dentro del componente.</li>
+          <li>Añade un botón que cambie el estado al contrario al hacer click: <code>setVerStats(!verStats)</code>.</li>
+          <li>Usa un operador ternario en el texto del botón según el estado.</li>
+          <li>Usa <code>&&</code> para mostrar/ocultar el bloque de stats. Las barras se calculan con
+            <code>value / 255 * 100</code> para el ancho en porcentaje.
+          </li>
+        </ol>
+      </div>
+
+      <div class="ref-box">
+        <h4>Chuleta — Renderizado condicional</h4>
+        <div class="code-block" style="margin-bottom:0">
+          <pre><span class="cm">// Con operador ternario:</span>
+{isAuth ? <span class="tg">&lt;AuthApp /&gt;</span> : <span class="tg">&lt;UnAuthApp /&gt;</span>}
+
+<span class="cm">// Con && (solo muestra si la condición es true):</span>
+{isAuth && <span class="tg">&lt;AuthApp /&gt;</span>}</pre>
+        </div>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          Necesitas <code>useState</code> con un booleano. El botón necesita <code>onClick</code> que invierta el
+          estado: <code>setVerStats(!verStats)</code>. Para mostrar/ocultar el bloque usa
+          <code>{verStats && &lt;div&gt;...&lt;/div&gt;}</code>. Para el texto del botón usa ternario:
+          <code>{verStats ? "Ocultar" : "Ver"}</code>.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <pre><span class="kw">import</span> { useState } <span class="kw">from</span> <span class="st">"react"</span>
+
+<span class="cm">// Extendemos PokemonCard del ejercicio 1 añadiendo la prop stats</span>
+<span class="kw">const</span> PokemonCard = ({ name, number, image, types, stats }) => {
+  <span class="kw">const</span> [verStats, setVerStats] = <span class="fn">useState</span>(<span class="kw">false</span>)
+
+  <span class="kw">return</span> (
+    <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-card"</span><span class="tg">&gt;</span>
+      <span class="tg">&lt;img</span> <span class="at">src</span>={image} <span class="at">alt</span>={name} <span class="tg">/&gt;</span>
+      <span class="tg">&lt;h3&gt;</span>{name}<span class="tg">&lt;/h3&gt;</span>
+      <span class="tg">&lt;p</span> <span class="at">className</span>=<span class="st">"num"</span><span class="tg">&gt;</span>#{number}<span class="tg">&lt;/p&gt;</span>
+      <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-types"</span><span class="tg">&gt;</span>
+        {types.map(t => <span class="tg">&lt;span</span> <span class="at">key</span>={t} <span class="at">className</span>={`poke-type t-${t}`}<span class="tg">&gt;</span>{t}<span class="tg">&lt;/span&gt;</span>)}
+      <span class="tg">&lt;/div&gt;</span>
+
+      <span class="tg">&lt;button</span> <span class="at">className</span>=<span class="st">"toggle-btn"</span> <span class="at">onClick</span>={() => <span class="fn">setVerStats</span>(!verStats)}<span class="tg">&gt;</span>
+        {verStats ? <span class="st">"Ocultar stats"</span> : <span class="st">"Ver stats"</span>}
+      <span class="tg">&lt;/button&gt;</span>
+
+      {verStats && (
+        <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-stats"</span><span class="tg">&gt;</span>
+          {stats.map(({ name: statName, value }) => (
+            <span class="tg">&lt;div</span> <span class="at">key</span>={statName} <span class="at">className</span>=<span class="st">"stat-row"</span><span class="tg">&gt;</span>
+              <span class="tg">&lt;span</span> <span class="at">className</span>=<span class="st">"stat-name"</span><span class="tg">&gt;</span>{statName}<span class="tg">&lt;/span&gt;</span>
+              <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"stat-bar-bg"</span><span class="tg">&gt;</span>
+                <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"stat-bar"</span>
+                  <span class="at">style</span>={{ width: `${(value / <span class="nm">255</span>) * <span class="nm">100</span>}%` }}
+                <span class="tg">/&gt;</span>
+              <span class="tg">&lt;/div&gt;</span>
+              <span class="tg">&lt;span</span> <span class="at">className</span>=<span class="st">"stat-val"</span><span class="tg">&gt;</span>{value}<span class="tg">&lt;/span&gt;</span>
+            <span class="tg">&lt;/div&gt;</span>
+          ))}
+        <span class="tg">&lt;/div&gt;</span>
+      )}
+    <span class="tg">&lt;/div&gt;</span>
+  )
+}
+
+<span class="cm">// App.jsx — datos de Pikachu con stats</span>
+<span class="kw">const</span> App = () => (
+  <span class="tg">&lt;PokemonCard</span>
+    <span class="at">name</span>=<span class="st">"pikachu"</span>
+    <span class="at">number</span>=<span class="st">"025"</span>
+    <span class="at">image</span>=<span class="st">"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"</span>
+    <span class="at">types</span>={[<span class="st">"electric"</span>]}
+    <span class="at">stats</span>={[
+      { name: <span class="st">"HP"</span>,  value: <span class="nm">35</span> },
+      { name: <span class="st">"ATK"</span>, value: <span class="nm">55</span> },
+      { name: <span class="st">"DEF"</span>, value: <span class="nm">40</span> },
+      { name: <span class="st">"SPD"</span>, value: <span class="nm">90</span> },
+    ]}
+  <span class="tg">/&gt;</span>
+)</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 4 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header green">
+      <div class="exercise-number green">4</div>
+      <div class="exercise-title">
+        <h2>Login / Logout — useAuth + renderizado condicional</h2>
+        <div class="tags">
+          <span class="tag tag-state">useState</span>
+          <span class="tag tag-hook">custom hook</span>
+          <span class="tag tag-props">condicional</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">Pantalla de login / dashboard según autenticación</span>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+          <div class="auth-screen">
+            <h2>🔒 Pokédex</h2>
+            <p>Inicia sesión para ver los Pokémon</p>
+            <button class="auth-btn login">Iniciar sesión</button>
+          </div>
+          <div class="dashboard">
+            <h2>✅ Bienvenido, Entrenador</h2>
+            <p>Ya puedes ver tu Pokédex</p>
+            <button class="auth-btn logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Crea <code>useAuth.js</code> en <code>src/hooks/</code> antes de empezar.
+      </div>
+      <div class="enunciado">
+        <p>La chuleta muestra un patrón de autenticación con <code>useAuth()</code>. Tu tarea es implementarlo: si el
+          usuario está autenticado se muestra el <strong>Dashboard</strong>, si no se muestra la pantalla de
+          <strong>Login</strong>. Un botón permite alternar entre los dos estados.
+        </p>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Crea el Custom Hook <code>useAuth</code> en <code>useAuth.js</code>. Gestiona un estado
+            <code>isAuth</code> (boolean, inicial <code>false</code>) y una función <code>toggleAuth</code> que lo
+            invierta. Devuelve ambos.
+          </li>
+          <li>Crea el componente <code>Login</code>: muestra un mensaje y un botón "Iniciar sesión" que llama a
+            <code>onLogin</code> (prop).
+          </li>
+          <li>Crea el componente <code>Dashboard</code>: muestra un mensaje de bienvenida y un botón "Cerrar sesión" que
+            llama a <code>onLogout</code> (prop).</li>
+          <li>En <code>App</code>, llama a <code>useAuth()</code> y usa renderizado condicional para mostrar
+            <code>Login</code> o <code>Dashboard</code> según <code>isAuth</code>.
+          </li>
+        </ol>
+      </div>
+
+      <div class="ref-box">
+        <h4>Chuleta — Auth y renderizado condicional</h4>
+        <div class="code-block" style="margin-bottom:0">
+          <pre><span class="kw">function</span> <span class="fn">App</span>() {
+  <span class="kw">const</span> isAuthUser = <span class="fn">useAuth</span>()
+
+  <span class="kw">if</span> (isAuthUser) {
+    <span class="kw">return</span> <span class="tg">&lt;AuthApp /&gt;</span>
+  }
+  <span class="kw">return</span> <span class="tg">&lt;UnAuthApp /&gt;</span>
+}
+
+<span class="cm">// O con ternario dentro del JSX:</span>
+{isAuthUser ? <span class="tg">&lt;AuthApp /&gt;</span> : <span class="tg">&lt;UnAuthApp /&gt;</span>}</pre>
+        </div>
+      </div>
+
+      <details data-type="code">
+        <summary>📄 HTML de referencia</summary>
+        <div class="details-inner">
+          <pre>&lt;!-- Estado NO autenticado --&gt;
+&lt;div class="auth-screen"&gt;
+  &lt;h2&gt;🔒 Pokédex&lt;/h2&gt;
+  &lt;p&gt;Inicia sesión para ver los Pokémon&lt;/p&gt;
+  &lt;button class="auth-btn login"&gt;Iniciar sesión&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Estado autenticado --&gt;
+&lt;div class="dashboard"&gt;
+  &lt;h2&gt;✅ Bienvenido, Entrenador&lt;/h2&gt;
+  &lt;p&gt;Ya puedes ver tu Pokédex&lt;/p&gt;
+  &lt;button class="auth-btn logout"&gt;Cerrar sesión&lt;/button&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </details>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          El Custom Hook devuelve dos cosas: el booleano y la función para cambiarlo. En <code>App</code> puedes
+          desestructurarlos: <code>const {'{ isAuth, toggleAuth }'} = useAuth()</code>. Luego pasa
+          <code>toggleAuth</code> como prop a <code>Login</code> y <code>Dashboard</code>. Para el condicional puedes
+          usar <code>if</code> antes del return o ternario dentro del JSX.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <div class="code-label">useAuth.js</div>
+            <pre><span class="kw">import</span> { useState } <span class="kw">from</span> <span class="st">"react"</span>
+
+<span class="kw">function</span> <span class="fn">useAuth</span>() {
+  <span class="kw">const</span> [isAuth, setIsAuth] = <span class="fn">useState</span>(<span class="kw">false</span>)
+  <span class="kw">const</span> <span class="fn">toggleAuth</span> = () => <span class="fn">setIsAuth</span>(!isAuth)
+  <span class="kw">return</span> { isAuth, toggleAuth }
+}
+
+<span class="kw">export default</span> useAuth</pre>
+          </div>
+          <div class="code-block" style="margin-top:.5rem">
+            <div class="code-label">App.jsx</div>
+            <pre><span class="kw">import</span> useAuth <span class="kw">from</span> <span class="st">"./useAuth"</span>
+
+<span class="kw">const</span> Login = ({ onLogin }) => (
+  <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"auth-screen"</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;h2&gt;</span>🔒 Pokédex<span class="tg">&lt;/h2&gt;</span>
+    <span class="tg">&lt;p&gt;</span>Inicia sesión para ver los Pokémon<span class="tg">&lt;/p&gt;</span>
+    <span class="tg">&lt;button</span> <span class="at">className</span>=<span class="st">"auth-btn login"</span> <span class="at">onClick</span>={onLogin}<span class="tg">&gt;</span>
+      Iniciar sesión
+    <span class="tg">&lt;/button&gt;</span>
+  <span class="tg">&lt;/div&gt;</span>
+)
+
+<span class="kw">const</span> Dashboard = ({ onLogout }) => (
+  <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"dashboard"</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;h2&gt;</span>✅ Bienvenido, Entrenador<span class="tg">&lt;/h2&gt;</span>
+    <span class="tg">&lt;p&gt;</span>Ya puedes ver tu Pokédex<span class="tg">&lt;/p&gt;</span>
+    <span class="tg">&lt;button</span> <span class="at">className</span>=<span class="st">"auth-btn logout"</span> <span class="at">onClick</span>={onLogout}<span class="tg">&gt;</span>
+      Cerrar sesión
+    <span class="tg">&lt;/button&gt;</span>
+  <span class="tg">&lt;/div&gt;</span>
+)
+
+<span class="kw">const</span> App = () => {
+  <span class="kw">const</span> { isAuth, toggleAuth } = <span class="fn">useAuth</span>()
+
+  <span class="cm">// Renderizado condicional: un componente u otro según isAuth</span>
+  <span class="kw">if</span> (!isAuth) <span class="kw">return</span> <span class="tg">&lt;Login</span> <span class="at">onLogin</span>={toggleAuth} <span class="tg">/&gt;</span>
+  <span class="kw">return</span> <span class="tg">&lt;Dashboard</span> <span class="at">onLogout</span>={toggleAuth} <span class="tg">/&gt;</span>
+}</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- EJERCICIO 5 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header green">
+      <div class="exercise-number green">5</div>
+      <div class="exercise-title">
+        <h2>Navegar por Pokémon — useState</h2>
+        <div class="tags">
+          <span class="tag tag-state">useState</span>
+          <span class="tag tag-props">eventos</span>
+          <span class="tag tag-props">condicional</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">Botones anterior/siguiente para cambiar de Pokémon</span>
+        <div class="poke-card">
+          <img
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+            alt="pikachu" />
+          <h3>pikachu</h3>
+          <p class="num">#025</p>
+        </div>
+        <div class="poke-nav">
+          <button class="poke-btn" disabled>← Anterior</button>
+          <button class="poke-btn">Siguiente →</button>
+        </div>
+        <p class="poke-counter">1 / 5</p>
+      </div>
+
+      <details data-type="code">
+        <summary>📄 HTML de referencia</summary>
+        <div class="details-inner">
+          <pre>&lt;div class="poke-card"&gt;
+  &lt;img src="...25.png" alt="pikachu" /&gt;
+  &lt;h3&gt;pikachu&lt;/h3&gt;
+  &lt;p class="num"&gt;#025&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="poke-nav"&gt;
+  &lt;button class="poke-btn" disabled&gt;← Anterior&lt;/button&gt;
+  &lt;button class="poke-btn"&gt;Siguiente →&lt;/button&gt;
+&lt;/div&gt;
+&lt;p class="poke-counter"&gt;1 / 5&lt;/p&gt;</pre>
+        </div>
+      </details>
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Usa el array de Pokémon del ejercicio 2 como datos de partida.
+      </div>
+      <div class="enunciado">
+        <p>Tienes un array de 5 Pokémon definido. El estado <code>indice</code> controla cuál se muestra. Los botones
+          avanzan y retroceden por el array. El botón "Anterior" está desactivado en el primero y "Siguiente" en el
+          último.</p>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Define un array de 5 Pokémon con <code>id</code>, <code>name</code> y <code>number</code>.</li>
+          <li>Crea un estado <code>indice</code> inicializado a <code>0</code>.</li>
+          <li>Muestra el Pokémon en la posición <code>indice</code> del array.</li>
+          <li>El botón "Siguiente" suma 1 al índice. El botón "Anterior" resta 1.</li>
+          <li>Usa la prop <code>disabled</code> para desactivar cada botón en los límites del array.</li>
+          <li>Muestra el contador <code>indice + 1 / pokemons.length</code>.</li>
+        </ol>
+      </div>
+
+      <div class="ref-box">
+        <h4>Chuleta — useState</h4>
+        <div class="code-block" style="margin-bottom:0">
+          <pre><span class="kw">import</span> { useState } <span class="kw">from</span> <span class="st">'react'</span>
+
+<span class="kw">const</span> [valor, setValor] = <span class="fn">useState</span>(valorInicial)
+
+<span class="cm">// Botón desactivado condicionalmente:</span>
+<span class="tg">&lt;button</span> <span class="at">disabled</span>={condicion}<span class="tg">&gt;</span>click<span class="tg">&lt;/button&gt;</span></pre>
+        </div>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          El Pokémon visible es <code>pokemons[indice]</code>, desestructúralo antes del return. El botón Anterior
+          necesita <code>disabled={indice === 0}</code> y el Siguiente
+          <code>disabled={indice === pokemons.length - 1}</code>. Cada botón actualiza el índice sumando o restando 1.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <pre><span class="kw">import</span> { useState } <span class="kw">from</span> <span class="st">"react"</span>
+
+<span class="kw">const</span> pokemons = [
+  { id: <span class="nm">25</span>,  name: <span class="st">"pikachu"</span>,   number: <span class="st">"025"</span> },
+  { id: <span class="nm">1</span>,   name: <span class="st">"bulbasaur"</span>,  number: <span class="st">"001"</span> },
+  { id: <span class="nm">4</span>,   name: <span class="st">"charmander"</span>, number: <span class="st">"004"</span> },
+  { id: <span class="nm">7</span>,   name: <span class="st">"squirtle"</span>,   number: <span class="st">"007"</span> },
+  { id: <span class="nm">39</span>,  name: <span class="st">"jigglypuff"</span>, number: <span class="st">"039"</span> },
+]
+
+<span class="kw">const</span> App = () => {
+  <span class="kw">const</span> [indice, setIndice] = <span class="fn">useState</span>(<span class="nm">0</span>)
+  <span class="kw">const</span> { id, name, number } = pokemons[indice]
+
+  <span class="kw">return</span> (
+    <span class="tg">&lt;&gt;</span>
+      <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-card"</span><span class="tg">&gt;</span>
+        <span class="tg">&lt;img</span> <span class="at">src</span>={`.../${id}.png`} <span class="at">alt</span>={name} <span class="tg">/&gt;</span>
+        <span class="tg">&lt;h3&gt;</span>{name}<span class="tg">&lt;/h3&gt;</span>
+        <span class="tg">&lt;p&gt;</span>#{number}<span class="tg">&lt;/p&gt;</span>
+      <span class="tg">&lt;/div&gt;</span>
+      <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-nav"</span><span class="tg">&gt;</span>
+        <span class="tg">&lt;button</span>
+          <span class="at">disabled</span>={indice === <span class="nm">0</span>}
+          <span class="at">onClick</span>={() => <span class="fn">setIndice</span>(indice - <span class="nm">1</span>)}
+        <span class="tg">&gt;</span>← Anterior<span class="tg">&lt;/button&gt;</span>
+        <span class="tg">&lt;button</span>
+          <span class="at">disabled</span>={indice === pokemons.length - <span class="nm">1</span>}
+          <span class="at">onClick</span>={() => <span class="fn">setIndice</span>(indice + <span class="nm">1</span>)}
+        <span class="tg">&gt;</span>Siguiente →<span class="tg">&lt;/button&gt;</span>
+      <span class="tg">&lt;/div&gt;</span>
+      <span class="tg">&lt;p</span> <span class="at">className</span>=<span class="st">"poke-counter"</span><span class="tg">&gt;</span>{indice + <span class="nm">1</span>} / {pokemons.length}<span class="tg">&lt;/p&gt;</span>
+    <span class="tg">&lt;/&gt;</span>
+  )
+}</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 6 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header orange">
+      <div class="exercise-number orange">6</div>
+      <div class="exercise-title">
+        <h2>Pokémon automático — useState + useEffect + setInterval</h2>
+        <div class="tags">
+          <span class="tag tag-state">useState</span>
+          <span class="tag tag-effect">useEffect</span>
+          <span class="tag tag-interval">setInterval</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">Botones anterior/siguiente para cambiar de Pokémon</span>
+        <div class="poke-card">
+          <img
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+            alt="pikachu" />
+          <h3>pikachu</h3>
+          <p class="num">#025</p>
+        </div>
+        <div class="poke-nav">
+          <button class="poke-btn" disabled>← Anterior</button>
+          <button class="poke-btn">Siguiente →</button>
+        </div>
+        <p class="poke-counter">1 / 5</p>
+      </div>
+
+
+      <details data-type="code">
+        <summary>📄 HTML de referencia</summary>
+        <div class="details-inner">
+          <pre>
+&lt;div class="poke-card"&gt;
+  &lt;img src="...id.png" alt="nombre" /&gt;
+  &lt;h3&gt;nombre&lt;/h3&gt;
+  &lt;p class="num"&gt;#XXX&lt;/p&gt;
+&lt;/div&gt;
+&lt;p class="poke-counter"&gt;Cambia automáticamente ↺&lt;/p&gt;</pre>
+        </div>
+      </details>
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Usa el array del ejercicio 2. Añade <code>useEffect</code> al componente del ejercicio 5.
+      </div>
+      <div class="enunciado">
+        <p>Usando el mismo array de 5 Pokémon del ejercicio anterior, haz que el índice avance solo cada 2 segundos de
+          forma circular: cuando llegue al último vuelve al primero.</p>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Mantén el estado <code>indice</code> con <code>useState</code>.</li>
+          <li>Dentro de un <code>useEffect</code>, crea un <code>setInterval</code> que sume 1 al índice cada 2000ms.
+          </li>
+          <li>Usa la forma funcional del setter <code>setIndice(prev => ...)</code> para leer siempre el valor más
+            reciente.</li>
+          <li>Implementa la lógica circular: si el siguiente índice supera el último, vuelve a 0.</li>
+          <li>Añade el <code>return () => clearInterval(intervalo)</code> para limpiar el temporizador.</li>
+          <li>Usa <code>[pokemons.length]</code> como dependencia del useEffect.</li>
+        </ol>
+      </div>
+
+      <div class="ref-box">
+        <h4>Chuleta — useEffect con setInterval</h4>
+        <div class="code-block" style="margin-bottom:0">
+          <pre><span class="fn">useEffect</span>(() => {
+  <span class="kw">const</span> intervalo = <span class="fn">setInterval</span>(() => {
+    <span class="cm">// lógica que se ejecuta cada N ms</span>
+  }, <span class="nm">2000</span>)
+
+  <span class="cm">// SIEMPRE limpiar el intervalo al desmontar</span>
+  <span class="kw">return</span> () => <span class="fn">clearInterval</span>(intervalo)
+}, [dependencia])</pre>
+        </div>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          Dentro del <code>useEffect</code>, guarda el intervalo en una variable:
+          <code>const intervalo = setInterval(() =&gt; {'{ ... }'}, 2000)</code>. Usa la forma funcional del setter para
+          leer el valor actual: <code>setIndice(prev =&gt; ...)</code>. Sin esto el closure captura el valor inicial y
+          nunca avanza. Devuelve <code>() =&gt; clearInterval(intervalo)</code> para limpiar.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <pre><span class="kw">import</span> { useState, useEffect } <span class="kw">from</span> <span class="st">"react"</span>
+
+<span class="kw">const</span> App = () => {
+  <span class="kw">const</span> [indice, setIndice] = <span class="fn">useState</span>(<span class="nm">0</span>)
+  <span class="kw">const</span> { id, name, number } = pokemons[indice]
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="kw">const</span> intervalo = <span class="fn">setInterval</span>(() => {
+      <span class="fn">setIndice</span>(prev =>
+        prev === pokemons.length - <span class="nm">1</span> ? <span class="nm">0</span> : prev + <span class="nm">1</span>
+      )
+    }, <span class="nm">2000</span>)
+
+    <span class="cm">// Cleanup: destruye el intervalo antes de crear uno nuevo</span>
+    <span class="kw">return</span> () => <span class="fn">clearInterval</span>(intervalo)
+  }, [pokemons.length])
+
+  <span class="kw">return</span> (
+    <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-card"</span><span class="tg">&gt;</span>
+      <span class="tg">&lt;img</span> <span class="at">src</span>={`.../${id}.png`} <span class="at">alt</span>={name} <span class="tg">/&gt;</span>
+      <span class="tg">&lt;h3&gt;</span>{name}<span class="tg">&lt;/h3&gt;</span>
+      <span class="tg">&lt;p&gt;</span>#{number}<span class="tg">&lt;/p&gt;</span>
+    <span class="tg">&lt;/div&gt;</span>
+  )
+}</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 7 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header purple">
+      <div class="exercise-number purple">7</div>
+      <div class="exercise-title">
+        <h2>Fetch al montar — useEffect básico</h2>
+        <div class="tags">
+          <span class="tag tag-effect">useEffect</span>
+          <span class="tag tag-fetch">fetch</span>
+          <span class="tag tag-fetch">async/await</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">Primero spinner, luego datos de la PokeAPI</span>
+        <div class="poke-loading">
+          <div class="spinner"></div>
+          <span>Cargando...</span>
+        </div>
+      </div>
+
+
+      <details data-type="code">
+        <summary>📄 HTML de referencia — estado loading</summary>
+        <div class="details-inner">
+          <pre>&lt;div class="poke-loading"&gt;
+  &lt;div class="spinner"&gt;&lt;/div&gt;
+  &lt;span&gt;Cargando...&lt;/span&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </details>
+      <details data-type="code">
+        <summary>📄 HTML de referencia — estado con datos</summary>
+        <div class="details-inner">
+          <pre>&lt;div class="poke-card"&gt;
+  &lt;img src="...oficial.png" alt="pikachu" /&gt;
+  &lt;h3&gt;pikachu&lt;/h3&gt;
+  &lt;div class="poke-types"&gt;
+    &lt;span class="poke-type t-electric"&gt;electric&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </details>
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Reutiliza el componente <code>PokemonCard</code> del ejercicio 3 para mostrar los datos cuando lleguen de la
+        API.
+      </div>
+      <div class="enunciado">
+        <p>Al montar el componente, pide los datos de Pikachu a la PokeAPI. Mientras cargan muestra un spinner. Cuando
+          llegan muestra su nombre, imagen y tipos.</p>
+        <p>URL: <code>https://pokeapi.co/api/v2/pokemon/25</code></p>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Crea los estados: <code>pokemon</code> (null inicial), <code>loading</code> (true inicial).</li>
+          <li>Dentro de <code>useEffect</code> con array vacío <code>[]</code>, define una función <code>async</code> y
+            llámala.</li>
+          <li>Usa <code>await fetch(url)</code> y <code>await res.json()</code> para obtener los datos.</li>
+          <li>Guarda en <code>pokemon</code> el objeto con <code>name</code>, <code>sprites</code> y <code>types</code>.
+          </li>
+          <li>Pon <code>loading</code> en false después del fetch.</li>
+          <li>Si <code>loading</code> es true devuelve el spinner. Si no, muestra los datos.</li>
+        </ol>
+      </div>
+
+      <div class="ref-box">
+        <h4>Chuleta — useEffect con fetch</h4>
+        <div class="code-block" style="margin-bottom:0">
+          <pre><span class="fn">useEffect</span>(() => {
+  <span class="cm">// No puedes marcar el callback del useEffect como async.</span>
+  <span class="cm">// Define la función async dentro y llámala:</span>
+  <span class="kw">const</span> <span class="fn">fetchData</span> = <span class="kw">async</span> () => {
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(url)
+    <span class="kw">const</span> datos = <span class="kw">await</span> res.<span class="fn">json</span>()
+    <span class="fn">setDatos</span>(datos)
+  }
+  <span class="fn">fetchData</span>()
+}, []) <span class="cm">// [] = solo al montar</span></pre>
+        </div>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          El callback de <code>useEffect</code> no puede ser <code>async</code> directamente. Define una función async
+          dentro y llámala: <code>const fetchData = async () =&gt; {'{ ... }'}; fetchData()</code>. Usa <code>[]</code>
+          como dependencia para que solo se ejecute al montar. Antes de mostrar datos comprueba si <code>loading</code>
+          es true.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <pre><span class="kw">import</span> { useState, useEffect } <span class="kw">from</span> <span class="st">"react"</span>
+
+<span class="kw">const</span> App = () => {
+  <span class="kw">const</span> [pokemon, setPokemon] = <span class="fn">useState</span>(<span class="kw">null</span>)
+  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>)
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="kw">const</span> <span class="fn">fetchPokemon</span> = <span class="kw">async</span> () => {
+      <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">"https://pokeapi.co/api/v2/pokemon/25"</span>)
+      <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>()
+      <span class="fn">setPokemon</span>({
+        name: data.name,
+        image: data.sprites.other[<span class="st">"official-artwork"</span>].front_default,
+        types: data.types.<span class="fn">map</span>(t => t.type.name)
+      })
+      <span class="fn">setLoading</span>(<span class="kw">false</span>)
+    }
+    <span class="fn">fetchPokemon</span>()
+  }, [])
+
+  <span class="kw">if</span> (loading) <span class="kw">return</span> <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-loading"</span><span class="tg">&gt;&lt;div</span> <span class="at">className</span>=<span class="st">"spinner"</span><span class="tg">/&gt;</span>Cargando...<span class="tg">&lt;/div&gt;</span>
+
+  <span class="kw">const</span> { name, image, types } = pokemon
+  <span class="kw">return</span> (
+    <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-card"</span><span class="tg">&gt;</span>
+      <span class="tg">&lt;img</span> <span class="at">src</span>={image} <span class="at">alt</span>={name} <span class="tg">/&gt;</span>
+      <span class="tg">&lt;h3&gt;</span>{name}<span class="tg">&lt;/h3&gt;</span>
+      <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-types"</span><span class="tg">&gt;</span>
+        {types.<span class="fn">map</span>(t => <span class="tg">&lt;span</span> <span class="at">key</span>={t} <span class="at">className</span>={`poke-type t-${t}`}<span class="tg">&gt;</span>{t}<span class="tg">&lt;/span&gt;</span>)}
+      <span class="tg">&lt;/div&gt;</span>
+    <span class="tg">&lt;/div&gt;</span>
+  )
+}</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 8 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header purple">
+      <div class="exercise-number purple">7</div>
+      <div class="exercise-title">
+        <h2>Buscar Pokémon por número — useEffect con dependencia</h2>
+        <div class="tags">
+          <span class="tag tag-state">useState</span>
+          <span class="tag tag-effect">useEffect</span>
+          <span class="tag tag-fetch">dependencia</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">Input + tarjeta con tipos de la PokeAPI</span>
+        <input type="number" value="25" min="1" max="151"
+          style="padding:0.4rem 0.75rem;border-radius:8px;border:2px solid #e2e8f0;font-size:1rem;width:100px;text-align:center" />
+        <div class="poke-card">
+          <img
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+            alt="pikachu" />
+          <h3>pikachu</h3>
+          <p class="num">#025</p>
+          <div class="poke-types">
+            <span class="poke-type t-electric">electric</span>
+          </div>
+        </div>
+      </div>
+
+
+      <details data-type="code">
+        <summary>📄 HTML de referencia</summary>
+        <div class="details-inner">
+          <pre>&lt;input type="number" value="25" min="1" max="151" /&gt;
+&lt;div class="poke-card"&gt;
+  &lt;img src="...25.png" alt="pikachu" /&gt;
+  &lt;h3&gt;pikachu&lt;/h3&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </details>
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Llama a <code>useFetch</code> igual que en <code>Home.jsx</code> de la Tarea 02.
+      </div>
+      <div class="enunciado">
+        <p>Hay un input de tipo número. Cada vez que el usuario cambia el número, se hace una nueva petición a la
+          PokeAPI con ese id y se muestra el Pokémon correspondiente.</p>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Estado <code>pokemonId</code> inicializado a <code>25</code>, controlado por el input.</li>
+          <li>Estado <code>pokemon</code> y <code>loading</code> como en el ejercicio anterior.</li>
+          <li>El <code>useEffect</code> tiene <code>pokemonId</code> como dependencia: se relanza cada vez que cambia.
+          </li>
+          <li>Construye la URL dinámicamente: <code>https://pokeapi.co/api/v2/pokemon/{pokemonId}</code>.</li>
+          <li>El input usa <code>onChange</code> para actualizar <code>pokemonId</code> con
+            <code>Number(e.target.value)</code>.
+          </li>
+        </ol>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          La clave está en la dependencia del <code>useEffect</code>: pon <code>[pokemonId]</code> para que se relance
+          cada vez que cambia. Al inicio de la función async, pon <code>setLoading(true)</code> para que el spinner
+          aparezca al cambiar de Pokémon. El input necesita <code>value={pokemonId}</code> y
+          <code>onChange={e =&gt; setPokemonId(Number(e.target.value))}</code>.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <pre><span class="kw">const</span> [pokemonId, setPokemonId] = <span class="fn">useState</span>(<span class="nm">25</span>)
+<span class="kw">const</span> [pokemon, setPokemon] = <span class="fn">useState</span>(<span class="kw">null</span>)
+<span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>)
+
+<span class="fn">useEffect</span>(() => {
+  <span class="fn">setLoading</span>(<span class="kw">true</span>)   <span class="cm">// spinner al cambiar de Pokémon</span>
+  <span class="kw">const</span> <span class="fn">fetchPokemon</span> = <span class="kw">async</span> () => {
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
+    <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>()
+    <span class="fn">setPokemon</span>({ name: data.name, image: data.sprites.other[<span class="st">"official-artwork"</span>].front_default })
+    <span class="fn">setLoading</span>(<span class="kw">false</span>)
+  }
+  <span class="fn">fetchPokemon</span>()
+}, [pokemonId])   <span class="cm">// se re-ejecuta cada vez que cambia el id</span>
+
+<span class="kw">return</span> (
+  <span class="tg">&lt;&gt;</span>
+    <span class="tg">&lt;input</span>
+      <span class="at">type</span>=<span class="st">"number"</span> <span class="at">min</span>=<span class="st">"1"</span> <span class="at">max</span>=<span class="st">"151"</span>
+      <span class="at">value</span>={pokemonId}
+      <span class="at">onChange</span>={e => <span class="fn">setPokemonId</span>(<span class="fn">Number</span>(e.target.value))}
+    <span class="tg">/&gt;</span>
+    {loading ? <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"spinner"</span><span class="tg">/&gt;</span> : <span class="tg">&lt;h3&gt;</span>{pokemon.name}<span class="tg">&lt;/h3&gt;</span>}
+  <span class="tg">&lt;/&gt;</span>
+)</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 9 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header purple">
+      <div class="exercise-number purple">9</div>
+      <div class="exercise-title">
+        <h2>Reescribir a async/await — fetch con .then()</h2>
+        <div class="tags">
+          <span class="tag tag-fetch">async/await</span>
+          <span class="tag tag-fetch">fetch</span>
+          <span class="tag tag-debug">refactor</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Parte del componente del ejercicio 8.
+      </div>
+      <div class="enunciado">
+        <p>Tienes este código que usa <code>.then()</code>. Tu tarea es reescribirlo exactamente igual pero usando
+          <code>async/await</code>. El resultado debe ser idéntico.
+        </p>
+      </div>
+
+      <div class="section-label">Código de partida — reescribe esto</div>
+      <div class="code-block">
+        <pre>fetch(<span class="st">"https://pokeapi.co/api/v2/pokemon/1"</span>)
+  .then(res => res.json())
+  .then(data => {
+    console.log(data.name)
+    console.log(data.types.map(t => t.type.name))
+  })
+  .catch(err => console.error(<span class="st">"Error:"</span>, err))</pre>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          Cada <code>.then(cb)</code> se convierte en: asigna el resultado con <code>await</code> en una línea nueva. El
+          <code>.catch()</code> desaparece: en su lugar todo el bloque va dentro de un
+          <code>try {'{'} ... {'}'} catch(err) {'{'} ... {'}'}</code>. La función que contiene los <code>await</code>
+          debe marcarse <code>async</code>.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <pre><span class="kw">const</span> <span class="fn">fetchPokemon</span> = <span class="kw">async</span> () => {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">"https://pokeapi.co/api/v2/pokemon/1"</span>)
+    <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>()
+    console.<span class="fn">log</span>(data.name)
+    console.<span class="fn">log</span>(data.types.<span class="fn">map</span>(t => t.type.name))
+  } <span class="kw">catch</span> (err) {
+    console.<span class="fn">error</span>(<span class="st">"Error:"</span>, err)
+  }
+}
+<span class="fn">fetchPokemon</span>()</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 10 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header orange">
+      <div class="exercise-number orange">10</div>
+      <div class="exercise-title">
+        <h2>Custom Hook — usePokemon</h2>
+        <div class="tags">
+          <span class="tag tag-hook">custom hook</span>
+          <span class="tag tag-fetch">fetch</span>
+          <span class="tag tag-effect">useEffect</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Parte del componente del ejercicio 8. Extrae la lógica a <code>usePokemon.js</code>.
+      </div>
+      <div class="enunciado">
+        <p>Tienes este componente que mezcla lógica de fetch con JSX. Tu tarea es extraer toda la lógica de fetch a un
+          Custom Hook llamado <code>usePokemon</code> y dejar el componente limpio.</p>
+      </div>
+
+      <div class="section-label">Código de partida — refactoriza esto</div>
+      <div class="code-block">
+        <pre><span class="kw">const</span> App = () => {
+  <span class="kw">const</span> [pokemon, setPokemon] = <span class="fn">useState</span>(<span class="kw">null</span>)
+  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>)
+  <span class="kw">const</span> [error, setError] = <span class="fn">useState</span>(<span class="kw">null</span>)
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="kw">const</span> <span class="fn">fetchPokemon</span> = <span class="kw">async</span> () => {
+      <span class="kw">try</span> {
+        <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">"https://pokeapi.co/api/v2/pokemon/25"</span>)
+        <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>()
+        <span class="fn">setPokemon</span>(data)
+      } <span class="kw">catch</span>(err) {
+        <span class="fn">setError</span>(err.message)
+      } <span class="kw">finally</span> {
+        <span class="fn">setLoading</span>(<span class="kw">false</span>)
+      }
+    }
+    <span class="fn">fetchPokemon</span>()
+  }, [])
+
+  <span class="kw">if</span> (loading) <span class="kw">return</span> <span class="tg">&lt;p&gt;</span>Cargando...<span class="tg">&lt;/p&gt;</span>
+  <span class="kw">if</span> (error)   <span class="kw">return</span> <span class="tg">&lt;p&gt;</span>Error: {error}<span class="tg">&lt;/p&gt;</span>
+  <span class="kw">return</span> <span class="tg">&lt;h3&gt;</span>{pokemon.name}<span class="tg">&lt;/h3&gt;</span>
+}</pre>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Crea el archivo <code>usePokemon.js</code>. El hook recibe la URL como parámetro.</li>
+          <li>Mueve los tres estados y el useEffect al hook.</li>
+          <li>El hook devuelve <code>{'{ pokemon, loading, error }'}</code>.</li>
+          <li>El componente <code>App</code> queda con solo 3 líneas de lógica: llamar al hook, los dos <code>if</code>
+            y el return.</li>
+        </ol>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          Un Custom Hook es una función normal que empieza por <code>use</code>. Mueve los tres <code>useState</code> y
+          el <code>useEffect</code> dentro de esa función. Recibe la URL como parámetro y la pone en las dependencias
+          del efecto: <code>[url]</code>. Al final hace <code>return {'{ pokemon, loading, error }'}</code>.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <div class="code-label">usePokemon.js</div>
+            <pre><span class="kw">import</span> { useState, useEffect } <span class="kw">from</span> <span class="st">"react"</span>
+
+<span class="kw">function</span> <span class="fn">usePokemon</span>(url) {
+  <span class="kw">const</span> [pokemon, setPokemon] = <span class="fn">useState</span>(<span class="kw">null</span>)
+  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>)
+  <span class="kw">const</span> [error, setError] = <span class="fn">useState</span>(<span class="kw">null</span>)
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="kw">const</span> <span class="fn">fetchPokemon</span> = <span class="kw">async</span> () => {
+      <span class="kw">try</span> {
+        <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(url)
+        <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>()
+        <span class="fn">setPokemon</span>(data)
+      } <span class="kw">catch</span>(err) {
+        <span class="fn">setError</span>(err.message)
+      } <span class="kw">finally</span> {
+        <span class="fn">setLoading</span>(<span class="kw">false</span>)
+      }
+    }
+    <span class="fn">fetchPokemon</span>()
+  }, [url])
+
+  <span class="kw">return</span> { pokemon, loading, error }
+}
+
+<span class="kw">export default</span> usePokemon</pre>
+          </div>
+          <div class="code-block" style="margin-top:0.5rem">
+            <div class="code-label">App.jsx — queda así de limpio</div>
+            <pre><span class="kw">import</span> usePokemon <span class="kw">from</span> <span class="st">"./usePokemon"</span>
+
+<span class="kw">const</span> App = () => {
+  <span class="kw">const</span> { pokemon, loading, error } = <span class="fn">usePokemon</span>(
+    <span class="st">"https://pokeapi.co/api/v2/pokemon/25"</span>
+  )
+  <span class="kw">if</span> (loading) <span class="kw">return</span> <span class="tg">&lt;p&gt;</span>Cargando...<span class="tg">&lt;/p&gt;</span>
+  <span class="kw">if</span> (error)   <span class="kw">return</span> <span class="tg">&lt;p&gt;</span>Error: {error}<span class="tg">&lt;/p&gt;</span>
+  <span class="kw">return</span> <span class="tg">&lt;h3&gt;</span>{pokemon.name}<span class="tg">&lt;/h3&gt;</span>
+}</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 11 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header purple">
+      <div class="exercise-number purple">11</div>
+      <div class="exercise-title">
+        <h2>Encuentra los 4 errores — Debug</h2>
+        <div class="tags">
+          <span class="tag tag-debug">debug</span>
+          <span class="tag tag-debug">errores tipográficos</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Enunciado</div>
+      <div class="enunciado">
+        <p>Este componente tiene <strong>4 errores</strong> que harán que no funcione. Son del mismo tipo que los que
+          cometiste durante la tarea: nombres mal escritos, métodos inexistentes, lógica incorrecta. Encuéntralos y
+          corrígelos.</p>
+      </div>
+
+      <div class="section-label">Código con errores — encuéntralos</div>
+      <div class="code-block">
+        <pre><span class="kw">import</span> { useState, useEffect } <span class="kw">from</span> <span class="st">"react"</span>
+
+<span class="kw">const</span> App = () => {
+  <span class="kw">const</span> [pokemons, setPokemons] = <span class="fn">useState</span>([])
+  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>)
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="kw">const</span> <span class="fn">fetchData</span> = <span class="kw">async</span> () => {
+      <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">"https://pokeapi.co/api/v2/pokemon?limit=5"</span>)
+      <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>()
+      <span class="fn">setPokemons</span>(data.results)
+      <span class="fn">setLoading</span>(<span class="kw">false</span>)
+    }
+    <span class="fn">fetchData</span>()
+  }, [])
+
+  <span class="kw">if</span> (loading) <span class="kw">return</span> <span class="tg">&lt;p&gt;</span>Cargando...<span class="tg">&lt;/p&gt;</span>
+
+  <span class="kw">return</span> (
+    <span class="tg">&lt;ul&gt;</span>
+      {pokemons.<span class="bug">mpa</span>(pokemon => (
+        <span class="tg">&lt;li</span> <span class="bug">keys</span>={pokemon.name}<span class="tg">&gt;</span>
+          {pokemon.<span class="bug">names</span>}
+        <span class="tg">&lt;/li&gt;</span>
+      ))}
+    <span class="tg">&lt;/ul&gt;</span>
+  )
+}
+
+<span class="kw">export default</span> <span class="bug">app</span></pre>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          Busca cuatro cosas: un método de array que no existe en JavaScript, la prop especial de React para listas
+          (escrita con s de más), una propiedad del objeto que tiene una s extra, y el nombre del componente en el
+          export (React requiere mayúscula inicial).
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución — los 4 errores</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <pre><span class="cm">// Error 1: .mpa() no existe → .map()</span>
+pokemons.<span class="tg">map</span>(pokemon => ...)
+
+<span class="cm">// Error 2: "keys" no es una prop válida → key (sin s)</span>
+<span class="tg">&lt;li</span> <span class="at">key</span>={pokemon.name}<span class="tg">&gt;</span>
+
+<span class="cm">// Error 3: .names no existe en el objeto → .name (sin s)</span>
+{pokemon.name}
+
+<span class="cm">// Error 4: export default app → App (mayúscula)</span>
+<span class="kw">export default</span> App</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 12 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header red">
+      <div class="exercise-number red">12</div>
+      <div class="exercise-title">
+        <h2>Badge de tipo con color — Props + condicional</h2>
+        <div class="tags">
+          <span class="tag tag-props">props</span>
+          <span class="tag tag-props">condicional</span>
+          <span class="tag tag-props">objeto de mapeo</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">TypeBadge + PokemonCard completo (ej. 1 + 3 + 11)</span>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;align-items:flex-start">
+          <div>
+            <p style="font-size:.7rem;color:#94a3b8;text-align:center;margin-bottom:.5rem">TypeBadge</p>
+            <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
+              <span class="poke-type t-fire">fire</span>
+              <span class="poke-type t-water">water</span>
+              <span class="poke-type t-grass">grass</span>
+              <span class="poke-type t-electric">electric</span>
+            </div>
+          </div>
+          <div>
+            <p style="font-size:.7rem;color:#94a3b8;text-align:center;margin-bottom:.5rem">PokemonCard acumulado</p>
+            <div class="poke-card" style="width:200px">
+              <img
+                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
+                alt="charizard" />
+              <h3>charizard</h3>
+              <p class="num">#006</p>
+              <div class="poke-types">
+                <span class="poke-type t-fire">fire</span>
+                <span class="poke-type t-flying">flying</span>
+              </div>
+              <button class="toggle-btn" style="font-size:.75rem;padding:.3rem .7rem">Ver stats</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <details data-type="code">
+        <summary>📄 HTML de referencia</summary>
+        <div class="details-inner">
+          <pre>&lt;div class="poke-types"&gt;
+  &lt;span class="poke-type" style="background:#f6783a"&gt;fire&lt;/span&gt;
+  &lt;span class="poke-type" style="background:#6890f0"&gt;water&lt;/span&gt;
+  &lt;span class="poke-type" style="background:#78c850"&gt;grass&lt;/span&gt;
+  &lt;span class="poke-type" style="background:#f8d030;color:#333"&gt;electric&lt;/span&gt;
+  &lt;span class="poke-type" style="background:#f85888"&gt;psychic&lt;/span&gt;
+  &lt;span class="poke-type" style="background:#7038f8"&gt;dragon&lt;/span&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </details>
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Usa el componente <code>PokemonCard</code> del ejercicio 3.
+      </div>
+      <div class="enunciado">
+        <p>Crea un componente <code>TypeBadge</code> que reciba una prop <code>type</code> (string) y renderice el badge
+          con el color correcto. El color no viene en el CSS como clase automática: tienes que mapearlo tú con un
+          objeto.</p>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Define un objeto <code>colores</code> dentro del componente que mapee cada tipo a un color hex.</li>
+          <li>Usa <code>colores[type]</code> para obtener el color. Si el tipo no existe en el objeto, usa un color por
+            defecto.</li>
+          <li>Aplica el color con el atributo <code>style</code>:
+            <code>style={'{{ backgroundColor: colores[type] }}'}</code>.
+          </li>
+          <li>En App renderiza un <code>TypeBadge</code> para cada tipo de este array:
+            <code>["fire", "water", "grass", "electric", "psychic", "dragon"]</code>.
+          </li>
+        </ol>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          Define un objeto donde cada clave es un tipo y el valor es un color hex. Accede al color con
+          <code>colores[type]</code>. Si el tipo no existe en el objeto devuelve <code>undefined</code>: usa
+          <code>|| '#aaa'</code> como fallback. Aplica el color con el atributo <code>style</code> en línea en el
+          <code>&lt;span&gt;</code>.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <pre><span class="kw">const</span> colores = {
+  fire:     <span class="st">"#f6783a"</span>,
+  water:    <span class="st">"#6890f0"</span>,
+  grass:    <span class="st">"#78c850"</span>,
+  electric: <span class="st">"#f8d030"</span>,
+  psychic:  <span class="st">"#f85888"</span>,
+  dragon:   <span class="st">"#7038f8"</span>,
+}
+
+<span class="kw">const</span> TypeBadge = ({ type }) => (
+  <span class="tg">&lt;span</span>
+    <span class="at">className</span>=<span class="st">"poke-type"</span>
+    <span class="at">style</span>={{ backgroundColor: colores[type] || <span class="st">"#aaa"</span> }}
+  <span class="tg">&gt;</span>
+    {type}
+  <span class="tg">&lt;/span&gt;</span>
+)
+
+<span class="kw">const</span> tipos = [<span class="st">"fire"</span>, <span class="st">"water"</span>, <span class="st">"grass"</span>, <span class="st">"electric"</span>, <span class="st">"psychic"</span>, <span class="st">"dragon"</span>]
+
+<span class="kw">const</span> App = () => (
+  <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-types"</span><span class="tg">&gt;</span>
+    {tipos.<span class="fn">map</span>(t => <span class="tg">&lt;TypeBadge</span> <span class="at">key</span>={t} <span class="at">type</span>={t} <span class="tg">/&gt;</span>)}
+  <span class="tg">&lt;/div&gt;</span>
+)</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EJERCICIO 13 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header orange">
+      <div class="exercise-number orange">13</div>
+      <div class="exercise-title">
+        <h2>Pokédex completa — Todo junto</h2>
+        <div class="tags">
+          <span class="tag tag-hook">custom hook</span>
+          <span class="tag tag-fetch">fetch</span>
+          <span class="tag tag-state">useState</span>
+          <span class="tag tag-effect">useEffect</span>
+          <span class="tag tag-props">props</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise-body">
+
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">Grid de Pokémon con loading, error y tarjetas</span>
+        <div class="poke-list">
+          <div class="poke-mini">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+              alt="bulbasaur" />
+            <h4>bulbasaur</h4>
+            <div class="poke-types" style="margin-top:.25rem;justify-content:center">
+              <span class="poke-type t-grass" style="font-size:.6rem;padding:.1rem .4rem">grass</span>
+              <span class="poke-type t-poison" style="font-size:.6rem;padding:.1rem .4rem">poison</span>
+            </div>
+          </div>
+          <div class="poke-mini">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"
+              alt="charmander" />
+            <h4>charmander</h4>
+            <div class="poke-types" style="margin-top:.25rem;justify-content:center">
+              <span class="poke-type t-fire" style="font-size:.6rem;padding:.1rem .4rem">fire</span>
+            </div>
+          </div>
+          <div class="poke-mini">
+            <img
+              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png"
+              alt="squirtle" />
+            <h4>squirtle</h4>
+            <div class="poke-types" style="margin-top:.25rem;justify-content:center">
+              <span class="poke-type t-water" style="font-size:.6rem;padding:.1rem .4rem">water</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <details data-type="code">
+        <summary>📄 HTML de referencia</summary>
+        <div class="details-inner">
+          <pre>&lt;div class="poke-list"&gt;
+  &lt;div class="poke-mini"&gt;
+    &lt;img src="...1.png" alt="bulbasaur" /&gt;
+    &lt;h4&gt;bulbasaur&lt;/h4&gt;
+    &lt;div class="poke-types"&gt;
+      &lt;span class="poke-type t-grass"&gt;grass&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- repetir por cada Pokémon --&gt;
+&lt;/div&gt;</pre>
+        </div>
+      </details>
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Combina <code>usePokemon</code> del ejercicio 10 y <code>PokemonCard</code> del ejercicio 3.
+      </div>
+      <div class="enunciado">
+        <p>Construye una Pokédex que cargue los primeros 9 Pokémon de la PokeAPI, los muestre en un grid de tarjetas con
+          nombre, imagen y tipos, y gestione correctamente los estados de carga y error.</p>
+        <p>URL base: <code>https://pokeapi.co/api/v2/pokemon?limit=9</code> — esta URL devuelve la lista con nombre y
+          url de cada Pokémon. Luego hay que pedir el detalle de cada uno para obtener la imagen y los tipos.</p>
+      </div>
+
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Custom Hook <code>usePokedex</code> que gestione el fetch, loading y error.</li>
+          <li>Primera petición a la URL base para obtener la lista de 9 Pokémon.</li>
+          <li>Por cada Pokémon de la lista, hacer una segunda petición a su <code>url</code> para obtener imagen y
+            tipos. Usa <code>Promise.all</code> para hacerlas en paralelo.</li>
+          <li>Componente <code>PokemonCard</code> que reciba name, image y types por props.</li>
+          <li>Componente <code>App</code> que use el hook y gestione los tres estados: loading, error y datos.</li>
+        </ol>
+      </div>
+
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          La primera petición devuelve una lista con <code>name</code> y <code>url</code> por cada Pokémon, pero sin
+          imagen ni tipos. Necesitas hacer una segunda petición a esa <code>url</code> por cada elemento. En lugar de
+          hacerlas una a una con un bucle, usa <code>Promise.all</code> para lanzarlas todas en paralelo y esperar a que
+          todas terminen. El <code>finally</code> garantiza que <code>loading</code> pasa a <code>false</code> aunque
+          algo falle.</code> lanza todas las peticiones a la vez y espera a que todas terminen, en lugar de hacerlas una
+          a una.
+        </div>
+      </details>
+
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <div class="code-label">usePokedex.js</div>
+            <pre><span class="kw">import</span> { useState, useEffect } <span class="kw">from</span> <span class="st">"react"</span>
+
+<span class="kw">function</span> <span class="fn">usePokedex</span>() {
+  <span class="kw">const</span> [pokemons, setPokemons] = <span class="fn">useState</span>([])
+  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>)
+  <span class="kw">const</span> [error, setError] = <span class="fn">useState</span>(<span class="kw">null</span>)
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="kw">const</span> <span class="fn">fetchAll</span> = <span class="kw">async</span> () => {
+      <span class="kw">try</span> {
+        <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">"https://pokeapi.co/api/v2/pokemon?limit=9"</span>)
+        <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>()
+        <span class="cm">// Peticiones en paralelo para cada Pokémon</span>
+        <span class="kw">const</span> detalles = <span class="kw">await</span> Promise.<span class="fn">all</span>(
+          data.results.<span class="fn">map</span>(p => <span class="fn">fetch</span>(p.url).<span class="fn">then</span>(r => r.<span class="fn">json</span>()))
+        )
+        <span class="fn">setPokemons</span>(detalles.<span class="fn">map</span>(d => ({
+          id:    d.id,
+          name:  d.name,
+          image: d.sprites.other[<span class="st">"official-artwork"</span>].front_default,
+          types: d.types.<span class="fn">map</span>(t => t.type.name)
+        })))
+      } <span class="kw">catch</span>(err) {
+        <span class="fn">setError</span>(err.message)
+      } <span class="kw">finally</span> {
+        <span class="fn">setLoading</span>(<span class="kw">false</span>)
+      }
+    }
+    <span class="fn">fetchAll</span>()
+  }, [])
+
+  <span class="kw">return</span> { pokemons, loading, error }
+}
+<span class="kw">export default</span> usePokedex</pre>
+          </div>
+          <div class="code-block" style="margin-top:0.5rem">
+            <div class="code-label">App.jsx</div>
+            <pre><span class="kw">import</span> usePokedex <span class="kw">from</span> <span class="st">"./usePokedex"</span>
+
+<span class="kw">const</span> PokemonCard = ({ name, image, types }) => (
+  <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-mini"</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;img</span> <span class="at">src</span>={image} <span class="at">alt</span>={name} <span class="tg">/&gt;</span>
+    <span class="tg">&lt;h4&gt;</span>{name}<span class="tg">&lt;/h4&gt;</span>
+    <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-types"</span><span class="tg">&gt;</span>
+      {types.<span class="fn">map</span>(t => <span class="tg">&lt;span</span> <span class="at">key</span>={t} <span class="at">className</span>={`poke-type t-${t}`}<span class="tg">&gt;</span>{t}<span class="tg">&lt;/span&gt;</span>)}
+    <span class="tg">&lt;/div&gt;</span>
+  <span class="tg">&lt;/div&gt;</span>
+)
+
+<span class="kw">const</span> App = () => {
+  <span class="kw">const</span> { pokemons, loading, error } = <span class="fn">usePokedex</span>()
+  <span class="kw">if</span> (loading) <span class="kw">return</span> <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"spinner"</span><span class="tg">/&gt;</span>
+  <span class="kw">if</span> (error)   <span class="kw">return</span> <span class="tg">&lt;p</span> <span class="at">className</span>=<span class="st">"poke-error"</span><span class="tg">&gt;</span>Error: {error}<span class="tg">&lt;/p&gt;</span>
+  <span class="kw">return</span> (
+    <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-list"</span><span class="tg">&gt;</span>
+      {pokemons.<span class="fn">map</span>(({ id, name, image, types }) => (
+        <span class="tg">&lt;PokemonCard</span> <span class="at">key</span>={id} <span class="at">name</span>={name} <span class="at">image</span>={image} <span class="at">types</span>={types} <span class="tg">/&gt;</span>
+      ))}
+    <span class="tg">&lt;/div&gt;</span>
+  )
+}</pre>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+</body>
+
+</html>
