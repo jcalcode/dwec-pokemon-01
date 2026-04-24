@@ -2145,45 +2145,45 @@ players.map(({ name, number }) => (
   </div>
 
   <!-- ══════════════════════════════════════════════════════ -->
-<!-- EJERCICIO 7 -->
-<!-- ══════════════════════════════════════════════════════ -->
-<div class="exercise">
-  <div class="exercise-header purple">
-    <div class="exercise-number purple">7</div>
-    <div class="exercise-title">
-      <h2>Fetch al montar — useEffect básico</h2>
-      <div class="tags">
-        <span class="tag tag-effect">useEffect</span>
-        <span class="tag tag-fetch">fetch</span>
-        <span class="tag tag-fetch">async/await</span>
+  <!-- EJERCICIO 7 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-header purple">
+      <div class="exercise-number purple">7</div>
+      <div class="exercise-title">
+        <h2>Fetch al montar — useEffect básico</h2>
+        <div class="tags">
+          <span class="tag tag-effect">useEffect</span>
+          <span class="tag tag-fetch">fetch</span>
+          <span class="tag tag-fetch">async/await</span>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="exercise-body">
+    <div class="exercise-body">
 
-    <div class="section-label">Resultado esperado</div>
-    <div class="html-preview">
-      <span class="preview-label">Primero spinner, luego datos de la PokeAPI</span>
-      <div class="poke-loading">
-        <div class="spinner"></div>
-        <span>Cargando...</span>
+      <div class="section-label">Resultado esperado</div>
+      <div class="html-preview">
+        <span class="preview-label">Primero spinner, luego datos de la PokeAPI</span>
+        <div class="poke-loading">
+          <div class="spinner"></div>
+          <span>Cargando...</span>
+        </div>
       </div>
-    </div>
 
-    <details data-type="code">
-      <summary>📄 HTML de referencia — estado loading</summary>
-      <div class="details-inner">
-        <pre>&lt;div class="poke-loading"&gt;
+      <details data-type="code">
+        <summary>📄 HTML de referencia — estado loading</summary>
+        <div class="details-inner">
+          <pre>&lt;div class="poke-loading"&gt;
   &lt;div class="spinner"&gt;&lt;/div&gt;
   &lt;span&gt;Cargando...&lt;/span&gt;
 &lt;/div&gt;</pre>
-      </div>
-    </details>
+        </div>
+      </details>
 
-    <details data-type="code">
-      <summary>📄 HTML de referencia — estado con datos</summary>
-      <div class="details-inner">
-        <pre>&lt;div class="poke-card"&gt;
+      <details data-type="code">
+        <summary>📄 HTML de referencia — estado con datos</summary>
+        <div class="details-inner">
+          <pre>&lt;div class="poke-card"&gt;
   &lt;img src="...oficial.png" alt="pikachu" /&gt;
   &lt;h3&gt;pikachu&lt;/h3&gt;
   &lt;p class="num"&gt;#025&lt;/p&gt;
@@ -2191,42 +2191,45 @@ players.map(({ name, number }) => (
     &lt;span class="poke-type t-electric"&gt;electric&lt;/span&gt;
   &lt;/div&gt;
 &lt;/div&gt;</pre>
+        </div>
+      </details>
+
+      <div class="section-label">Enunciado</div>
+      <div
+        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+        ⚙️ Crea un componente nuevo <code>PokemonFetch.jsx</code> que gestione el fetch y reutilice
+        <code>PokemonCard</code> del ejercicio 3 para mostrar los datos cuando lleguen.
       </div>
-    </details>
+      <div class="enunciado">
+        <p>Al montar el componente, pide los datos de Pikachu a la PokeAPI. Mientras cargan muestra un spinner. Cuando
+          llegan muestra la tarjeta completa con nombre, número, imagen, tipos y stats.</p>
+        <p>URL: <code>https://pokeapi.co/api/v2/pokemon/25</code> — pásala como prop <code>url</code> desde
+          <code>App.jsx</code>.
+        </p>
+      </div>
 
-    <div class="section-label">Enunciado</div>
-    <div
-      style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
-      ⚙️ Crea un componente nuevo <code>PokemonFetch.jsx</code> que gestione el fetch y reutilice
-      <code>PokemonCard</code> del ejercicio 3 para mostrar los datos cuando lleguen.
-    </div>
-    <div class="enunciado">
-      <p>Al montar el componente, pide los datos de Pikachu a la PokeAPI. Mientras cargan muestra un spinner. Cuando
-        llegan muestra la tarjeta completa con nombre, número, imagen, tipos y stats.</p>
-      <p>URL: <code>https://pokeapi.co/api/v2/pokemon/25</code> — pásala como prop <code>url</code> desde
-        <code>App.jsx</code>.</p>
-    </div>
+      <div class="section-label">Lo que tienes que implementar</div>
+      <div class="tasks">
+        <ol>
+          <li>Crea los estados: <code>pokemon</code> (null inicial), <code>loading</code> (true inicial).</li>
+          <li>Dentro de <code>useEffect</code> con array vacío <code>[]</code>, define una función <code>async</code> y
+            llámala.</li>
+          <li>Usa <code>await fetch(url)</code> y <code>await res.json()</code> para obtener los datos.</li>
+          <li>Transforma los datos antes de guardarlos en el estado — la API no devuelve los campos en el formato que
+            espera <code>PokemonCard</code>.</li>
+          <li>Pon <code>setLoading(false)</code> dentro de <code>fetchData</code>, justo después de
+            <code>setPokemon</code>.
+          </li>
+          <li>Si <code>loading</code> es true devuelve el spinner. Si no, desestructura <code>pokemon</code> y renderiza
+            <code>PokemonCard</code>.
+          </li>
+        </ol>
+      </div>
 
-    <div class="section-label">Lo que tienes que implementar</div>
-    <div class="tasks">
-      <ol>
-        <li>Crea los estados: <code>pokemon</code> (null inicial), <code>loading</code> (true inicial).</li>
-        <li>Dentro de <code>useEffect</code> con array vacío <code>[]</code>, define una función <code>async</code> y
-          llámala.</li>
-        <li>Usa <code>await fetch(url)</code> y <code>await res.json()</code> para obtener los datos.</li>
-        <li>Transforma los datos antes de guardarlos en el estado — la API no devuelve los campos en el formato que
-          espera <code>PokemonCard</code>.</li>
-        <li>Pon <code>setLoading(false)</code> dentro de <code>fetchData</code>, justo después de
-          <code>setPokemon</code>.</li>
-        <li>Si <code>loading</code> es true devuelve el spinner. Si no, desestructura <code>pokemon</code> y renderiza
-          <code>PokemonCard</code>.</li>
-      </ol>
-    </div>
-
-    <div class="ref-box">
-      <h4>Chuleta — useEffect con fetch</h4>
-      <div class="code-block" style="margin-bottom:0">
-        <pre><span class="fn">useEffect</span>(() => {
+      <div class="ref-box">
+        <h4>Chuleta — useEffect con fetch</h4>
+        <div class="code-block" style="margin-bottom:0">
+          <pre><span class="fn">useEffect</span>(() => {
   <span class="cm">// No puedes marcar el callback del useEffect como async.</span>
   <span class="cm">// Define la función async dentro y llámala:</span>
   <span class="kw">const</span> <span class="fn">fetchData</span> = <span class="kw">async</span> () => {
@@ -2237,36 +2240,38 @@ players.map(({ name, number }) => (
   }
   <span class="fn">fetchData</span>()
 }, []) <span class="cm">// [] = solo al montar</span></pre>
+        </div>
       </div>
-    </div>
 
-    <details data-type="hint">
-      <summary>💡 Pista</summary>
-      <div class="details-inner">
-        <p>El callback de <code>useEffect</code> no puede ser <code>async</code> directamente. Define una función async
-          dentro y llámala.</p>
-        <p style="margin-top:.75rem">La API no devuelve los datos en el formato que espera <code>PokemonCard</code>.
-          Tienes que transformarlos al guardarlos en el estado:</p>
-        <ul style="padding-left:1.25rem;margin-top:.5rem;font-size:.9rem">
-          <li><strong>number:</strong> <code>String(datos.id).padStart(3, '0')</code> — formatea el id como
-            "025"</li>
-          <li><strong>image:</strong>
-            <code>datos.sprites.other["official-artwork"].front_default</code></li>
-          <li><strong>types:</strong> <code>datos.types.map(t => t.type.name)</code> — la API devuelve objetos, necesitas
-            solo el string del nombre</li>
-          <li><strong>stats:</strong> <code>datos.stats.map(s => ({ name: s.stat.name, value: s.base_stat }))</code> — la
-            API devuelve <code>base_stat</code> y <code>stat.name</code>, pero <code>PokemonCard</code> espera
-            <code>name</code> y <code>value</code></li>
-        </ul>
-      </div>
-    </details>
+      <details data-type="hint">
+        <summary>💡 Pista</summary>
+        <div class="details-inner">
+          <p>El callback de <code>useEffect</code> no puede ser <code>async</code> directamente. Define una función
+            async
+            dentro y llámala.</p>
+          <p style="margin-top:.75rem">La API no devuelve los datos en el formato que espera <code>PokemonCard</code>.
+            Tienes que transformarlos al guardarlos en el estado:</p>
+          <ul style="padding-left:1.25rem;margin-top:.5rem;font-size:.9rem">
+            <li><strong>number:</strong> <code>String(datos.id).padStart(3, '0')</code> — formatea el id como "025"</li>
+            <li><strong>image:</strong> <code>datos.sprites.other["official-artwork"].front_default</code></li>
+            <li><strong>types:</strong> <code>datos.types.map(t => t.type.name)</code> — la API devuelve objetos,
+              necesitas
+              solo el string del nombre</li>
+            <li><strong>stats:</strong> <code>datos.stats.map(s => ({ name: s.stat.name, value: s.base_stat }))</code> —
+              la
+              API devuelve <code>base_stat</code> y <code>stat.name</code>, pero <code>PokemonCard</code> espera
+              <code>name</code> y <code>value</code>
+            </li>
+          </ul>
+        </div>
+      </details>
 
-    <details data-type="solution">
-      <summary>✅ Solución</summary>
-      <div class="details-inner">
-        <div class="code-block">
-          <div class="code-label">PokemonFetch.jsx</div>
-          <pre><span class="kw">import</span> { useEffect, useState } <span class="kw">from</span> <span class="st">"react"</span>
+      <details data-type="solution">
+        <summary>✅ Solución</summary>
+        <div class="details-inner">
+          <div class="code-block">
+            <div class="code-label">PokemonFetch.jsx</div>
+            <pre><span class="kw">import</span> { useEffect, useState } <span class="kw">from</span> <span class="st">"react"</span>
 <span class="kw">import</span> PokemonCard <span class="kw">from</span> <span class="st">"./PokemonCard"</span>
 
 <span class="kw">const</span> PokemonFetch = ({ url }) => {
@@ -2310,18 +2315,38 @@ players.map(({ name, number }) => (
 }
 
 <span class="kw">export default</span> PokemonFetch</pre>
+          </div>
         </div>
-      </div>
-    </details>
+      </details>
+
+      <details data-type="hint">
+        <summary>🚀 Ampliación opcional — Integra con useAuth</summary>
+        <div class="details-inner">
+          <p>Combina <code>PokemonFetch</code> con el <code>useAuth</code> del ejercicio 4. El Pokémon solo se muestra
+            cuando el usuario ha iniciado sesión.</p>
+          <p style="margin-top:.75rem">En <code>App.jsx</code>:</p>
+          <ul style="padding-left:1.25rem;margin-top:.5rem;font-size:.9rem">
+            <li>Importa <code>useAuth</code>, <code>Login</code>, <code>Dashboard</code> y <code>PokemonFetch</code>.
+            </li>
+            <li>Desestructura el hook: <code>const { isAuth, toggleAuth } = useAuth()</code>.</li>
+            <li>Si <code>isAuth</code> es <code>false</code> → muestra solo <code>Login</code>.</li>
+            <li>Si <code>isAuth</code> es <code>true</code> → muestra <code>Dashboard</code> y debajo
+              <code>PokemonFetch</code>.</li>
+            <li>Recuerda que para renderizar dos componentes en el mismo ternario necesitas un Fragment
+              <code>&lt;&gt;...&lt;/&gt;</code>.</li>
+          </ul>
+        </div>
+      </details>
+
+    </div>
   </div>
-</div>
 
   <!-- ══════════════════════════════════════════════════════ -->
   <!-- EJERCICIO 8 -->
   <!-- ══════════════════════════════════════════════════════ -->
   <div class="exercise">
     <div class="exercise-header purple">
-      <div class="exercise-number purple">7</div>
+      <div class="exercise-number purple">8</div>
       <div class="exercise-title">
         <h2>Buscar Pokémon por número — useEffect con dependencia</h2>
         <div class="tags">
