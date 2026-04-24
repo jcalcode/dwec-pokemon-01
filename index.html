@@ -2145,147 +2145,176 @@ players.map(({ name, number }) => (
   </div>
 
   <!-- ══════════════════════════════════════════════════════ -->
-  <!-- EJERCICIO 7 -->
-  <!-- ══════════════════════════════════════════════════════ -->
-  <div class="exercise">
-    <div class="exercise-header purple">
-      <div class="exercise-number purple">7</div>
-      <div class="exercise-title">
-        <h2>Fetch al montar — useEffect básico</h2>
-        <div class="tags">
-          <span class="tag tag-effect">useEffect</span>
-          <span class="tag tag-fetch">fetch</span>
-          <span class="tag tag-fetch">async/await</span>
-        </div>
+<!-- EJERCICIO 7 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="exercise">
+  <div class="exercise-header purple">
+    <div class="exercise-number purple">7</div>
+    <div class="exercise-title">
+      <h2>Fetch al montar — useEffect básico</h2>
+      <div class="tags">
+        <span class="tag tag-effect">useEffect</span>
+        <span class="tag tag-fetch">fetch</span>
+        <span class="tag tag-fetch">async/await</span>
       </div>
     </div>
-    <div class="exercise-body">
+  </div>
+  <div class="exercise-body">
 
-      <div class="section-label">Resultado esperado</div>
-      <div class="html-preview">
-        <span class="preview-label">Primero spinner, luego datos de la PokeAPI</span>
-        <div class="poke-loading">
-          <div class="spinner"></div>
-          <span>Cargando...</span>
-        </div>
+    <div class="section-label">Resultado esperado</div>
+    <div class="html-preview">
+      <span class="preview-label">Primero spinner, luego datos de la PokeAPI</span>
+      <div class="poke-loading">
+        <div class="spinner"></div>
+        <span>Cargando...</span>
       </div>
+    </div>
 
-
-      <details data-type="code">
-        <summary>📄 HTML de referencia — estado loading</summary>
-        <div class="details-inner">
-          <pre>&lt;div class="poke-loading"&gt;
+    <details data-type="code">
+      <summary>📄 HTML de referencia — estado loading</summary>
+      <div class="details-inner">
+        <pre>&lt;div class="poke-loading"&gt;
   &lt;div class="spinner"&gt;&lt;/div&gt;
   &lt;span&gt;Cargando...&lt;/span&gt;
 &lt;/div&gt;</pre>
-        </div>
-      </details>
-      <details data-type="code">
-        <summary>📄 HTML de referencia — estado con datos</summary>
-        <div class="details-inner">
-          <pre>&lt;div class="poke-card"&gt;
+      </div>
+    </details>
+
+    <details data-type="code">
+      <summary>📄 HTML de referencia — estado con datos</summary>
+      <div class="details-inner">
+        <pre>&lt;div class="poke-card"&gt;
   &lt;img src="...oficial.png" alt="pikachu" /&gt;
   &lt;h3&gt;pikachu&lt;/h3&gt;
+  &lt;p class="num"&gt;#025&lt;/p&gt;
   &lt;div class="poke-types"&gt;
     &lt;span class="poke-type t-electric"&gt;electric&lt;/span&gt;
   &lt;/div&gt;
 &lt;/div&gt;</pre>
-        </div>
-      </details>
-      <div class="section-label">Enunciado</div>
-      <div
-        style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
-        ⚙️ Reutiliza el componente <code>PokemonCard</code> del ejercicio 3 para mostrar los datos cuando lleguen de la
-        API.
       </div>
-      <div class="enunciado">
-        <p>Al montar el componente, pide los datos de Pikachu a la PokeAPI. Mientras cargan muestra un spinner. Cuando
-          llegan muestra su nombre, imagen y tipos.</p>
-        <p>URL: <code>https://pokeapi.co/api/v2/pokemon/25</code></p>
-      </div>
+    </details>
 
-      <div class="section-label">Lo que tienes que implementar</div>
-      <div class="tasks">
-        <ol>
-          <li>Crea los estados: <code>pokemon</code> (null inicial), <code>loading</code> (true inicial).</li>
-          <li>Dentro de <code>useEffect</code> con array vacío <code>[]</code>, define una función <code>async</code> y
-            llámala.</li>
-          <li>Usa <code>await fetch(url)</code> y <code>await res.json()</code> para obtener los datos.</li>
-          <li>Guarda en <code>pokemon</code> el objeto con <code>name</code>, <code>sprites</code> y <code>types</code>.
-          </li>
-          <li>Pon <code>loading</code> en false después del fetch.</li>
-          <li>Si <code>loading</code> es true devuelve el spinner. Si no, muestra los datos.</li>
-        </ol>
-      </div>
+    <div class="section-label">Enunciado</div>
+    <div
+      style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px;padding:.5rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#0369a1;">
+      ⚙️ Crea un componente nuevo <code>PokemonFetch.jsx</code> que gestione el fetch y reutilice
+      <code>PokemonCard</code> del ejercicio 3 para mostrar los datos cuando lleguen.
+    </div>
+    <div class="enunciado">
+      <p>Al montar el componente, pide los datos de Pikachu a la PokeAPI. Mientras cargan muestra un spinner. Cuando
+        llegan muestra la tarjeta completa con nombre, número, imagen, tipos y stats.</p>
+      <p>URL: <code>https://pokeapi.co/api/v2/pokemon/25</code> — pásala como prop <code>url</code> desde
+        <code>App.jsx</code>.</p>
+    </div>
 
-      <div class="ref-box">
-        <h4>Chuleta — useEffect con fetch</h4>
-        <div class="code-block" style="margin-bottom:0">
-          <pre><span class="fn">useEffect</span>(() => {
+    <div class="section-label">Lo que tienes que implementar</div>
+    <div class="tasks">
+      <ol>
+        <li>Crea los estados: <code>pokemon</code> (null inicial), <code>loading</code> (true inicial).</li>
+        <li>Dentro de <code>useEffect</code> con array vacío <code>[]</code>, define una función <code>async</code> y
+          llámala.</li>
+        <li>Usa <code>await fetch(url)</code> y <code>await res.json()</code> para obtener los datos.</li>
+        <li>Transforma los datos antes de guardarlos en el estado — la API no devuelve los campos en el formato que
+          espera <code>PokemonCard</code>.</li>
+        <li>Pon <code>setLoading(false)</code> dentro de <code>fetchData</code>, justo después de
+          <code>setPokemon</code>.</li>
+        <li>Si <code>loading</code> es true devuelve el spinner. Si no, desestructura <code>pokemon</code> y renderiza
+          <code>PokemonCard</code>.</li>
+      </ol>
+    </div>
+
+    <div class="ref-box">
+      <h4>Chuleta — useEffect con fetch</h4>
+      <div class="code-block" style="margin-bottom:0">
+        <pre><span class="fn">useEffect</span>(() => {
   <span class="cm">// No puedes marcar el callback del useEffect como async.</span>
   <span class="cm">// Define la función async dentro y llámala:</span>
   <span class="kw">const</span> <span class="fn">fetchData</span> = <span class="kw">async</span> () => {
     <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(url)
     <span class="kw">const</span> datos = <span class="kw">await</span> res.<span class="fn">json</span>()
     <span class="fn">setDatos</span>(datos)
+    <span class="fn">setLoading</span>(<span class="kw">false</span>) <span class="cm">// siempre dentro del fetch, no fuera</span>
   }
   <span class="fn">fetchData</span>()
 }, []) <span class="cm">// [] = solo al montar</span></pre>
-        </div>
       </div>
+    </div>
 
-      <details data-type="hint">
-        <summary>💡 Pista</summary>
-        <div class="details-inner">
-          El callback de <code>useEffect</code> no puede ser <code>async</code> directamente. Define una función async
-          dentro y llámala: <code>const fetchData = async () =&gt; {'{ ... }'}; fetchData()</code>. Usa <code>[]</code>
-          como dependencia para que solo se ejecute al montar. Antes de mostrar datos comprueba si <code>loading</code>
-          es true.
-        </div>
-      </details>
+    <details data-type="hint">
+      <summary>💡 Pista</summary>
+      <div class="details-inner">
+        <p>El callback de <code>useEffect</code> no puede ser <code>async</code> directamente. Define una función async
+          dentro y llámala.</p>
+        <p style="margin-top:.75rem">La API no devuelve los datos en el formato que espera <code>PokemonCard</code>.
+          Tienes que transformarlos al guardarlos en el estado:</p>
+        <ul style="padding-left:1.25rem;margin-top:.5rem;font-size:.9rem">
+          <li><strong>number:</strong> <code>String(datos.id).padStart(3, '0')</code> — formatea el id como
+            "025"</li>
+          <li><strong>image:</strong>
+            <code>datos.sprites.other["official-artwork"].front_default</code></li>
+          <li><strong>types:</strong> <code>datos.types.map(t => t.type.name)</code> — la API devuelve objetos, necesitas
+            solo el string del nombre</li>
+          <li><strong>stats:</strong> <code>datos.stats.map(s => ({ name: s.stat.name, value: s.base_stat }))</code> — la
+            API devuelve <code>base_stat</code> y <code>stat.name</code>, pero <code>PokemonCard</code> espera
+            <code>name</code> y <code>value</code></li>
+        </ul>
+      </div>
+    </details>
 
-      <details data-type="solution">
-        <summary>✅ Solución</summary>
-        <div class="details-inner">
-          <div class="code-block">
-            <pre><span class="kw">import</span> { useState, useEffect } <span class="kw">from</span> <span class="st">"react"</span>
+    <details data-type="solution">
+      <summary>✅ Solución</summary>
+      <div class="details-inner">
+        <div class="code-block">
+          <div class="code-label">PokemonFetch.jsx</div>
+          <pre><span class="kw">import</span> { useEffect, useState } <span class="kw">from</span> <span class="st">"react"</span>
+<span class="kw">import</span> PokemonCard <span class="kw">from</span> <span class="st">"./PokemonCard"</span>
 
-<span class="kw">const</span> App = () => {
+<span class="kw">const</span> PokemonFetch = ({ url }) => {
+
   <span class="kw">const</span> [pokemon, setPokemon] = <span class="fn">useState</span>(<span class="kw">null</span>)
   <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>)
 
   <span class="fn">useEffect</span>(() => {
-    <span class="kw">const</span> <span class="fn">fetchPokemon</span> = <span class="kw">async</span> () => {
-      <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">"https://pokeapi.co/api/v2/pokemon/25"</span>)
-      <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>()
+    <span class="kw">const</span> <span class="fn">fetchData</span> = <span class="kw">async</span> () => {
+      <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(url)
+      <span class="kw">const</span> datos = <span class="kw">await</span> res.<span class="fn">json</span>()
       <span class="fn">setPokemon</span>({
-        name: data.name,
-        image: data.sprites.other[<span class="st">"official-artwork"</span>].front_default,
-        types: data.types.<span class="fn">map</span>(t => t.type.name)
+        number: <span class="fn">String</span>(datos.id).<span class="fn">padStart</span>(<span class="nm">3</span>, <span class="st">'0'</span>),
+        name:   datos.name,
+        image:  datos.sprites.other[<span class="st">"official-artwork"</span>].front_default,
+        types:  datos.types.<span class="fn">map</span>(t => t.type.name),
+        stats:  datos.stats.<span class="fn">map</span>(s => ({ name: s.stat.name, value: s.base_stat }))
       })
       <span class="fn">setLoading</span>(<span class="kw">false</span>)
     }
-    <span class="fn">fetchPokemon</span>()
+    <span class="fn">fetchData</span>()
   }, [])
 
-  <span class="kw">if</span> (loading) <span class="kw">return</span> <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-loading"</span><span class="tg">&gt;&lt;div</span> <span class="at">className</span>=<span class="st">"spinner"</span><span class="tg">/&gt;</span>Cargando...<span class="tg">&lt;/div&gt;</span>
-
-  <span class="kw">const</span> { name, image, types } = pokemon
-  <span class="kw">return</span> (
-    <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-card"</span><span class="tg">&gt;</span>
-      <span class="tg">&lt;img</span> <span class="at">src</span>={image} <span class="at">alt</span>={name} <span class="tg">/&gt;</span>
-      <span class="tg">&lt;h3&gt;</span>{name}<span class="tg">&lt;/h3&gt;</span>
-      <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-types"</span><span class="tg">&gt;</span>
-        {types.<span class="fn">map</span>(t => <span class="tg">&lt;span</span> <span class="at">key</span>={t} <span class="at">className</span>={`poke-type t-${t}`}<span class="tg">&gt;</span>{t}<span class="tg">&lt;/span&gt;</span>)}
-      <span class="tg">&lt;/div&gt;</span>
+  <span class="kw">if</span> (loading) <span class="kw">return</span> (
+    <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"poke-loading"</span><span class="tg">&gt;</span>
+      <span class="tg">&lt;div</span> <span class="at">className</span>=<span class="st">"spinner"</span><span class="tg">/&gt;</span>
+      <span class="tg">&lt;span&gt;</span>Cargando...<span class="tg">&lt;/span&gt;</span>
     <span class="tg">&lt;/div&gt;</span>
   )
-}</pre>
-          </div>
+
+  <span class="kw">const</span> { number, name, image, types, stats } = pokemon
+  <span class="kw">return</span> (
+    <span class="tg">&lt;PokemonCard</span>
+      <span class="at">number</span>={number}
+      <span class="at">name</span>={name}
+      <span class="at">image</span>={image}
+      <span class="at">types</span>={types}
+      <span class="at">stats</span>={stats}
+    <span class="tg">/&gt;</span>
+  )
+}
+
+<span class="kw">export default</span> PokemonFetch</pre>
         </div>
-      </details>
-    </div>
+      </div>
+    </details>
   </div>
+</div>
 
   <!-- ══════════════════════════════════════════════════════ -->
   <!-- EJERCICIO 8 -->
